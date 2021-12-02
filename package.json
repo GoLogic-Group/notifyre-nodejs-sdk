@@ -1,0 +1,64 @@
+{
+  "name": "notifyre-nodejs-sdk",
+  "version": "1.0.0",
+  "description": "The official Notifyre NodeJS SDK library for use with the Notifyre API",
+  "main": "lib/index.js",
+  "keywords": [
+    "notifyre",
+    "fax",
+    "sms"
+  ],
+  "homepage": "https://github.com/gologicgroup/notifyre-nodejs-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gologicgroup/notifyre-nodejs-sdk.git"
+  },
+  "scripts": {
+    "build": "npm run lint && tsc && npm version patch",
+    "lint": "eslint --fix",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watchAll"
+  },
+  "author": {
+    "name": "GoLogic Group",
+    "email": "",
+    "url": "https://gologic.com.au/"
+  },
+  "contributors": [
+    "Judd Sosa"
+  ],
+  "license": "Apache-2.0",
+  "types": "lib/index.d.ts",
+  "dependencies": {
+    "axios": "^0.24.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.3.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
+  },
+  "eslintIgnore": [
+    "dist",
+    "node_modules"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/test/**/*.test.ts"
+    ],
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "verbose": true
+  }
+}
