@@ -2,10 +2,6 @@
 
 A Node.js package for Notifyre Public API.
 
-## Requirements/Dependencies
-
-- [axios](https://www.npmjs.com/package/axios)
-
 ## Installation
 
 ```
