@@ -113,14 +113,6 @@ async function listFaxNumbers() {
 | --------------- | -------------------------- |
 | verifySignature | Verifies Webhook signature |
 
-## Build process
-
-```bash
-npm run build
-```
-
-_This will also update the package version and create tag._
-
 ## Testing
 
 ```bash
@@ -132,9 +124,3 @@ npm run test
 ```bash
 npm run test:watch
 ```
-
-## Deployment process
-
-1. Create NPM account [here](https://www.npmjs.com/signup).
-2. Run `npm login` (use npm account credentials).
-3. Run `npm publish`.
