@@ -1,6 +1,6 @@
 {
   "name": "notifyre-nodejs-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The official Notifyre NodeJS SDK library for use with the Notifyre API",
   "main": "lib/index.js",
   "keywords": [
@@ -14,14 +14,13 @@
     "url": "git://github.com/gologicgroup/notifyre-nodejs-sdk.git"
   },
   "scripts": {
-    "build": "npm run lint && tsc && npm version patch",
+    "build": "npm run lint && tsc",
     "lint": "eslint --fix",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watchAll"
   },
   "author": {
     "name": "GoLogic Group",
-    "email": "",
     "url": "https://gologic.com.au/"
   },
   "contributors": [
