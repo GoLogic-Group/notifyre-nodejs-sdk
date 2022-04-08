@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import { createHmac } from 'crypto';
 import { NotifyreError } from '.';
 
@@ -61,4 +62,22 @@ export const verifySignature = (
   }
 
   throw new NotifyreError('Invalid signature');
+};
+
+export const responseInterceptor = (res: AxiosResponse) => {
+  return res.data;
+};
+
+export const errorInterceptor = (res: AxiosError) => {
+  if (res.response) {
+    return Promise.reject(
+      new NotifyreError(
+        res.response.data.message,
+        res.response.data.statusCode,
+        res.response.data.errors
+      )
+    );
+  } else {
+    return Promise.reject(new NotifyreError(res.message));
+  }
 };
