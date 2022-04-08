@@ -9,6 +9,7 @@ export declare class FaxService {
     submitFax(request: SubmitFaxRequest): Promise<BaseResponse<SubmitFaxResponse>>;
     private uploadDocument;
     downloadSentFax(request: DownloadSentFaxRequest): Promise<BaseResponse<DownloadSentFaxResponse>>;
+    private pollDocumentsStatus;
     listCoverPages(): Promise<BaseResponse<ListCoverPagesResponse[]>>;
     listReceivedFaxes(request: ListReceivedFaxesRequest): Promise<BaseResponse<ListReceivedFaxesResponse[]>>;
     downloadReceivedFax(faxId: string): Promise<BaseResponse<DownloadReceivedFaxResponse>>;
