@@ -293,11 +293,12 @@ describe('FaxService', () => {
         fileName: '4ca38d82-c82a-45da-8f28-62c198bec078'
       }
     );
+    const mockUploadDocumentError = new NotifyreError('ERROR');
 
     jest
       .spyOn(httpClient, 'post')
       .mockResolvedValueOnce(mockUploadDocumentResponse)
-      .mockRejectedValue(notifyreError);
+      .mockRejectedValueOnce(mockUploadDocumentError);
 
     await expect(faxService.submitFax(mockRequest)).rejects.toEqual(
       notifyreError

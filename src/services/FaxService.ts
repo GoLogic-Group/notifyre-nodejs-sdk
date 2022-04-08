@@ -43,7 +43,7 @@ export class FaxService {
     );
 
     if (files.find((file) => !file.success)) {
-      return new NotifyreError(
+      throw new NotifyreError(
         'The document upload process failed',
         400,
         files.map((file) => (file.success ? null : file.message))
@@ -71,7 +71,9 @@ export class FaxService {
   private uploadDocument(
     request: FaxDocument
   ): Promise<BaseResponse<UploadDocumentResponse>> {
-    return this.httpClient.post(`${this.basePath}/send/conversion`, request);
+    return this.httpClient
+      .post(`${this.basePath}/send/conversion`, request)
+      .catch((err) => err);
   }
 
   downloadSentFax(
