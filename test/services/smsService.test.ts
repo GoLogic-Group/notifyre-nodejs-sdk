@@ -25,7 +25,7 @@ describe('SmsService', () => {
     httpClient = axios.create({
       baseURL: `${baseUrl}/${defaultVersion}`,
       headers: {
-        'x-api-token': '4e0add32-50fc-a6ab-10c3-f824d0769f7e',
+        'x-api-token': '8817ac13-2b93-f11e-be86-6addca81156e',
         'user-agent': defaultVersion
       }
     });
@@ -85,7 +85,7 @@ describe('SmsService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockListSentSmsResponse });
+      .mockResolvedValue(mockListSentSmsResponse);
 
     await expect(smsService.listSentSms(mockRequest)).resolves.toEqual(
       mockListSentSmsResponse
@@ -101,19 +101,16 @@ describe('SmsService', () => {
   });
 
   it('listSentSms - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: ListSentSmsRequest = {
       fromDate: new Date(),
       toDate: new Date(),
       sort: Sort.Descending,
       limit: 10
     };
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(smsService.listSentSms(mockRequest)).resolves.toEqual(
+    await expect(smsService.listSentSms(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -133,7 +130,7 @@ describe('SmsService', () => {
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValue({ data: mockSubmitSmsResponse });
+      .mockResolvedValue(mockSubmitSmsResponse);
 
     await expect(smsService.submitSms(mockRequest)).resolves.toEqual(
       mockSubmitSmsResponse
@@ -158,7 +155,7 @@ describe('SmsService', () => {
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValue({ data: mockSubmitSmsResponse });
+      .mockResolvedValue(mockSubmitSmsResponse);
 
     await expect(smsService.submitSms(mockRequest)).resolves.toEqual(
       mockSubmitSmsResponse
@@ -178,14 +175,11 @@ describe('SmsService', () => {
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate: null
     };
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
 
-    jest
-      .spyOn(httpClient, 'post')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'post').mockRejectedValue(notifyreError);
 
-    await expect(smsService.submitSms(mockRequest)).resolves.toEqual(
+    await expect(smsService.submitSms(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -221,7 +215,7 @@ describe('SmsService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockGetSmsResponse });
+      .mockResolvedValue(mockGetSmsResponse);
 
     await expect(smsService.getSms(mockRequest)).resolves.toEqual(
       mockGetSmsResponse
@@ -236,16 +230,11 @@ describe('SmsService', () => {
       messageID: '0a5c9565-bba2-4406-96df-d9ffd85b2830',
       recipientID: '6a5d0164-2eb3-4cfb-9bf5-f4fc5682faf4'
     };
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
 
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(smsService.getSms(mockRequest)).resolves.toEqual(
-      notifyreError
-    );
+    await expect(smsService.getSms(mockRequest)).rejects.toEqual(notifyreError);
   });
 
   it('listSmsReplies - should be able to return list of received sms', async () => {
@@ -278,7 +267,7 @@ describe('SmsService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockListSmsRepliesResponse });
+      .mockResolvedValue(mockListSmsRepliesResponse);
 
     await expect(smsService.listSmsReplies(mockRequest)).resolves.toEqual(
       mockListSmsRepliesResponse
@@ -294,19 +283,16 @@ describe('SmsService', () => {
   });
 
   it('listSmsReplies - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: ListSmsRepliesRequest = {
       fromDate: new Date(),
       toDate: new Date(),
       sort: Sort.Descending,
       limit: 10
     };
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(smsService.listSmsReplies(mockRequest)).resolves.toEqual(
+    await expect(smsService.listSmsReplies(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -330,7 +316,7 @@ describe('SmsService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockGetSmsReplyResponse });
+      .mockResolvedValue(mockGetSmsReplyResponse);
 
     await expect(smsService.getSmsReply(mockRequest)).resolves.toEqual(
       mockGetSmsReplyResponse
@@ -339,14 +325,11 @@ describe('SmsService', () => {
   });
 
   it('getSmsReply - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: string = 'a3a1f58f-c54b-4c49-a9ae-0e0f8f11550a';
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(smsService.getSmsReply(mockRequest)).resolves.toEqual(
+    await expect(smsService.getSmsReply(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -386,7 +369,7 @@ describe('SmsService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockListSmsNumbersResponse });
+      .mockResolvedValue(mockListSmsNumbersResponse);
 
     await expect(smsService.listSmsNumbers()).resolves.toEqual(
       mockListSmsNumbersResponse
@@ -395,12 +378,9 @@ describe('SmsService', () => {
   });
 
   it('listSmsNumbers - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    const notifyreError = new NotifyreError('ERROR');
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(smsService.listSmsNumbers()).resolves.toEqual(notifyreError);
+    await expect(smsService.listSmsNumbers()).rejects.toEqual(notifyreError);
   });
 });
