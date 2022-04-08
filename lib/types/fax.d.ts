@@ -54,7 +54,7 @@ export interface FaxDocument {
     contentType: string;
 }
 export interface DownloadSentFaxRequest {
-    id: string;
+    recipientID: string;
     fileType: string;
 }
 export interface DownloadSentFaxResponse {
