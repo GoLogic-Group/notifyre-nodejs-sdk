@@ -63,7 +63,7 @@ export interface FaxDocument {
 }
 
 export interface DownloadSentFaxRequest {
-  id: string;
+  recipientID: string;
   fileType: string;
 }
 

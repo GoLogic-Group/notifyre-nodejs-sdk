@@ -85,7 +85,7 @@ export class FaxService {
     request: DownloadSentFaxRequest
   ): Promise<BaseResponse<DownloadSentFaxResponse>> {
     return this.httpClient.get(
-      `${this.basePath}/send/recipients/${request.id}/download`,
+      `${this.basePath}/send/recipients/${request.recipientID}/download`,
       {
         params: {
           fileType: request.fileType

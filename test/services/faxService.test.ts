@@ -436,7 +436,7 @@ describe('FaxService', () => {
 
   it('downloadSentFax - should be able to return base64 string of sent fax', async () => {
     const mockRequest: DownloadSentFaxRequest = {
-      id: 'ada2edec-e5e0-4ba4-bae8-a37a0e34becb',
+      recipientID: 'ada2edec-e5e0-4ba4-bae8-a37a0e34becb',
       fileType: FileType.Pdf
     };
     const mockDownloadSentFaxResponse =
@@ -452,19 +452,19 @@ describe('FaxService', () => {
       mockDownloadSentFaxResponse
     );
     expect(httpGetSpy).toHaveBeenCalledWith(
-      `/fax/send/recipients/${mockRequest.id}/download`,
+      `/fax/send/recipients/${mockRequest.recipientID}/download`,
       {
         params: {
           fileType: mockRequest.fileType
         }
       }
     );
-  });
+  }, 30000);
 
   it('downloadSentFax - should be able to handle system errors', async () => {
     const notifyreError = new NotifyreError('ERROR');
     const mockRequest: DownloadSentFaxRequest = {
-      id: 'ada2edec-e5e0-4ba4-bae8-a37a0e34becb',
+      recipientID: 'ada2edec-e5e0-4ba4-bae8-a37a0e34becb',
       fileType: FileType.Pdf
     };
 
