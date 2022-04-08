@@ -1,4 +1,5 @@
 import { Recipient } from '.';
+import { DocumentStatus } from '../constants';
 
 export interface ListSentFaxesRequest {
   fromDate: Date;
@@ -46,6 +47,13 @@ export interface SubmitFaxResponse {
 
 export interface UploadDocumentResponse {
   fileID: string;
+  fileName: string;
+}
+
+export interface GetDocumentStatusResponse {
+  id: string;
+  status: DocumentStatus;
+  pages: number | null;
   fileName: string;
 }
 

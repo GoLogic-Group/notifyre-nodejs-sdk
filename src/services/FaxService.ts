@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { DocumentStatus } from '../constants';
 import { BaseResponse, NotifyreError } from '../models';
 import {
   DownloadReceivedFaxResponse,
@@ -13,7 +14,8 @@ import {
   ListSentFaxesResponse,
   SubmitFaxRequest,
   SubmitFaxResponse,
-  UploadDocumentResponse
+  UploadDocumentResponse,
+  GetDocumentStatusResponse
 } from '../types';
 import { dateToTimestamp } from '../utilities';
 
@@ -50,11 +52,14 @@ export class FaxService {
       );
     }
 
+    const documents: BaseResponse<GetDocumentStatusResponse>[] =
+      await this.pollDocumentsStatus(files.map((file) => file.payload!));
+
     return this.httpClient.post(`${this.basePath}/send`, {
       templateName: request.templateName,
       faxes: {
         clientReference: request.clientReference,
-        files: files.map((file) => file.payload!.fileID),
+        files: documents.map((document) => document.payload!.id),
         header: request.header,
         isHighQuality: request.isHighQuality,
         recipients: request.recipients,
@@ -87,6 +92,52 @@ export class FaxService {
         }
       }
     );
+  }
+
+  private async pollDocumentsStatus(
+    request: UploadDocumentResponse[],
+    iteration = 1
+  ): Promise<BaseResponse<GetDocumentStatusResponse>[]> {
+    if (iteration !== 1) {
+      await new Promise<void>((resolve) =>
+        setTimeout(() => {
+          resolve();
+        }, iteration * 5000)
+      );
+    }
+
+    const documents: BaseResponse<GetDocumentStatusResponse>[] =
+      await Promise.all(
+        request.map((document) =>
+          this.httpClient
+            .get(`${this.basePath}/send/conversion/${document.fileName}`)
+            .catch((err) => err)
+        )
+      );
+
+    if (
+      documents.find(
+        (document) => document.payload?.status === DocumentStatus.Failed
+      )
+    ) {
+      throw new NotifyreError(
+        'The document conversion process failed',
+        400,
+        documents.map((document) =>
+          document.success ? null : document.message
+        )
+      );
+    }
+
+    if (
+      documents.every(
+        (document) => document.payload?.status === DocumentStatus.Successful
+      )
+    ) {
+      return documents;
+    }
+
+    return this.pollDocumentsStatus(request, iteration + 1);
   }
 
   listCoverPages(): Promise<BaseResponse<ListCoverPagesResponse[]>> {

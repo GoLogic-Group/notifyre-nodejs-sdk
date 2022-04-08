@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import {
   ContentType,
+  DocumentStatus,
   FileType,
   RecipientType,
   Sort
@@ -12,6 +13,7 @@ import {
   DownloadReceivedFaxResponse,
   DownloadSentFaxRequest,
   DownloadSentFaxResponse,
+  GetDocumentStatusResponse,
   ListCoverPagesResponse,
   ListReceivedFaxesResponse,
   ListReceivedFaxesRequest,
@@ -21,7 +23,11 @@ import {
   SubmitFaxResponse,
   UploadDocumentResponse
 } from '../../src/types';
-import { dateToTimestamp } from '../../src/utilities';
+import {
+  dateToTimestamp,
+  errorInterceptor,
+  responseInterceptor
+} from '../../src/utilities';
 
 describe('FaxService', () => {
   let httpClient: AxiosInstance;
@@ -35,6 +41,7 @@ describe('FaxService', () => {
         'user-agent': defaultVersion
       }
     });
+    httpClient.interceptors.response.use(responseInterceptor, errorInterceptor);
 
     faxService = new FaxService(httpClient);
   });
@@ -128,18 +135,19 @@ describe('FaxService', () => {
           value: '+61711111111'
         }
       ],
-      sendFrom: '+61777777777',
+      sendFrom: '',
       header: '',
       subject: '',
       scheduledDate: null
     };
+    const mockFileName = '4ca38d82-c82a-45da-8f28-62c198bec078';
     const mockUploadDocumentResponse = new BaseResponse<UploadDocumentResponse>(
       true,
       200,
       'OK',
       {
         fileID: '99dd6d59-d919-4744-b19b-3ce5d0cb780b',
-        fileName: '4ca38d82-c82a-45da-8f28-62c198bec078'
+        fileName: mockFileName
       }
     );
     const mockSubmitFaxResponse = new BaseResponse<SubmitFaxResponse>(
@@ -151,11 +159,34 @@ describe('FaxService', () => {
         friendlyID: 'OE5YC1C01NY4'
       }
     );
+    const mockDocumentId = '97926ceb-4d33-44cd-a71b-ebfd297d1c74';
+    const mockDocumentStatusIteration1 =
+      new BaseResponse<GetDocumentStatusResponse>(false, 404, 'NotFound', null);
+    const mockDocumentStatusIteration2 =
+      new BaseResponse<GetDocumentStatusResponse>(true, 200, 'OK', {
+        id: mockDocumentId,
+        status: DocumentStatus.Initialised,
+        pages: 1,
+        fileName: mockFileName
+      });
+    const mockDocumentStatusIteration3 =
+      new BaseResponse<GetDocumentStatusResponse>(true, 200, 'OK', {
+        id: mockDocumentId,
+        status: DocumentStatus.Successful,
+        pages: 1,
+        fileName: mockFileName
+      });
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
       .mockResolvedValueOnce(mockUploadDocumentResponse)
       .mockResolvedValue(mockSubmitFaxResponse);
+
+    const httpGetSpy = jest
+      .spyOn(httpClient, 'get')
+      .mockResolvedValueOnce(mockDocumentStatusIteration1)
+      .mockResolvedValueOnce(mockDocumentStatusIteration2)
+      .mockResolvedValue(mockDocumentStatusIteration3);
 
     await expect(faxService.submitFax(mockRequest)).resolves.toEqual(
       mockSubmitFaxResponse
@@ -165,11 +196,23 @@ describe('FaxService', () => {
       '/fax/send/conversion',
       mockRequest.documents[0]
     );
+    expect(httpGetSpy).toHaveBeenNthCalledWith(
+      1,
+      `/fax/send/conversion/${mockFileName}`
+    );
+    expect(httpGetSpy).toHaveBeenNthCalledWith(
+      2,
+      `/fax/send/conversion/${mockFileName}`
+    );
+    expect(httpGetSpy).toHaveBeenNthCalledWith(
+      3,
+      `/fax/send/conversion/${mockFileName}`
+    );
     expect(httpPostSpy).toHaveBeenNthCalledWith(2, '/fax/send', {
       templateName: mockRequest.templateName,
       faxes: {
         clientReference: mockRequest.clientReference,
-        files: [mockUploadDocumentResponse.payload?.fileID],
+        files: [mockDocumentId],
         header: mockRequest.header,
         isHighQuality: mockRequest.isHighQuality,
         recipients: mockRequest.recipients,
@@ -179,7 +222,7 @@ describe('FaxService', () => {
         subject: mockRequest.subject
       }
     });
-  });
+  }, 30000);
 
   it('submitFax - should be able to submit scheduled fax', async () => {
     const scheduledDate = new Date();
@@ -205,13 +248,14 @@ describe('FaxService', () => {
       subject: '',
       scheduledDate
     };
+    const mockFileName = '4ca38d82-c82a-45da-8f28-62c198bec078';
     const mockUploadDocumentResponse = new BaseResponse<UploadDocumentResponse>(
       true,
       200,
       'OK',
       {
         fileID: '99dd6d59-d919-4744-b19b-3ce5d0cb780b',
-        fileName: '4ca38d82-c82a-45da-8f28-62c198bec078'
+        fileName: mockFileName
       }
     );
     const mockSubmitFaxResponse = new BaseResponse<SubmitFaxResponse>(
@@ -223,11 +267,22 @@ describe('FaxService', () => {
         friendlyID: 'OE5YC1C01NY4'
       }
     );
+    const mockDocumentId = '97926ceb-4d33-44cd-a71b-ebfd297d1c74';
+    const mockDocumentStatusIteration1 =
+      new BaseResponse<GetDocumentStatusResponse>(true, 200, 'OK', {
+        id: mockDocumentId,
+        status: DocumentStatus.Successful,
+        pages: 1,
+        fileName: mockFileName
+      });
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
       .mockResolvedValueOnce(mockUploadDocumentResponse)
       .mockResolvedValue(mockSubmitFaxResponse);
+    const httpGetSpy = jest
+      .spyOn(httpClient, 'get')
+      .mockResolvedValue(mockDocumentStatusIteration1);
 
     await expect(faxService.submitFax(mockRequest)).resolves.toEqual(
       mockSubmitFaxResponse
@@ -237,11 +292,15 @@ describe('FaxService', () => {
       '/fax/send/conversion',
       mockRequest.documents[0]
     );
+    expect(httpGetSpy).toHaveBeenNthCalledWith(
+      1,
+      `/fax/send/conversion/${mockFileName}`
+    );
     expect(httpPostSpy).toHaveBeenNthCalledWith(2, '/fax/send', {
       templateName: mockRequest.templateName,
       faxes: {
         clientReference: mockRequest.clientReference,
-        files: [mockUploadDocumentResponse.payload?.fileID],
+        files: [mockDocumentId],
         header: mockRequest.header,
         isHighQuality: mockRequest.isHighQuality,
         recipients: mockRequest.recipients,
@@ -251,7 +310,7 @@ describe('FaxService', () => {
         subject: mockRequest.subject
       }
     });
-  });
+  }, 30000);
 
   it('submitFax - should be able to handle upload document error', async () => {
     const notifyreError = new NotifyreError(
@@ -284,32 +343,36 @@ describe('FaxService', () => {
       subject: '',
       scheduledDate: null
     };
-    const mockUploadDocumentResponse = new BaseResponse<UploadDocumentResponse>(
-      true,
-      200,
-      'OK',
-      {
+    const mockUploadDocumentResponseItem1 =
+      new BaseResponse<UploadDocumentResponse>(true, 200, 'OK', {
         fileID: '99dd6d59-d919-4744-b19b-3ce5d0cb780b',
         fileName: '4ca38d82-c82a-45da-8f28-62c198bec078'
-      }
-    );
-    const mockUploadDocumentError = new NotifyreError('ERROR');
+      });
+    const mockUploadDocumentResponseItem2 = new NotifyreError('ERROR');
 
     jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValueOnce(mockUploadDocumentResponse)
-      .mockRejectedValueOnce(mockUploadDocumentError);
+      .mockResolvedValueOnce(mockUploadDocumentResponseItem1)
+      .mockRejectedValueOnce(mockUploadDocumentResponseItem2);
 
     await expect(faxService.submitFax(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
 
-  it('submitFax - should be able to handle system errors', async () => {
-    const notifyreError = new NotifyreError('ERROR');
+  it('submitFax - should be able to handle document conversion error', async () => {
+    const notifyreError = new NotifyreError(
+      'The document conversion process failed',
+      400,
+      ['ERROR', null]
+    );
     const mockRequest: SubmitFaxRequest = {
       templateName: '',
       documents: [
+        {
+          base64Str: 'dGVzdA==',
+          contentType: ContentType.Txt
+        },
         {
           base64Str: 'dGVzdA==',
           contentType: ContentType.Txt
@@ -328,20 +391,43 @@ describe('FaxService', () => {
       subject: '',
       scheduledDate: null
     };
-    const mockUploadDocumentResponse = new BaseResponse<UploadDocumentResponse>(
-      true,
-      200,
-      'OK',
-      {
+    const mockFileName1 = '4ca38d82-c82a-45da-8f28-62c198bec078';
+    const mockFileName2 = '99dd6d59-d919-4744-b19b-3ce5d0cb780b';
+    const mockUploadDocumentResponseItem1 =
+      new BaseResponse<UploadDocumentResponse>(true, 200, 'OK', {
         fileID: '99dd6d59-d919-4744-b19b-3ce5d0cb780b',
-        fileName: '4ca38d82-c82a-45da-8f28-62c198bec078'
-      }
-    );
+        fileName: mockFileName1
+      });
+    const mockUploadDocumentResponseItem2 =
+      new BaseResponse<UploadDocumentResponse>(true, 200, 'OK', {
+        fileID: '4ca38d82-c82a-45da-8f28-62c198bec078',
+        fileName: mockFileName2
+      });
+    const mockDocumentId1 = '97926ceb-4d33-44cd-a71b-ebfd297d1c74';
+    const mockDocumentId2 = '97926bec-4d33-44cd-a71b-ebfd297d1c74';
+    const mockDocumentStatusIteration1Item1 =
+      new BaseResponse<GetDocumentStatusResponse>(false, 500, 'ERROR', {
+        id: mockDocumentId1,
+        status: DocumentStatus.Failed,
+        pages: 1,
+        fileName: mockFileName1
+      });
+    const mockDocumentStatusIteration1Item2 =
+      new BaseResponse<GetDocumentStatusResponse>(true, 200, 'OK', {
+        id: mockDocumentId2,
+        status: DocumentStatus.Successful,
+        pages: 1,
+        fileName: mockFileName2
+      });
 
     jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValueOnce(mockUploadDocumentResponse)
-      .mockRejectedValue(notifyreError);
+      .mockResolvedValueOnce(mockUploadDocumentResponseItem1)
+      .mockResolvedValue(mockUploadDocumentResponseItem2);
+    jest
+      .spyOn(httpClient, 'get')
+      .mockResolvedValueOnce(mockDocumentStatusIteration1Item1)
+      .mockRejectedValueOnce(mockDocumentStatusIteration1Item2);
 
     await expect(faxService.submitFax(mockRequest)).rejects.toEqual(
       notifyreError

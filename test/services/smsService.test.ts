@@ -15,7 +15,11 @@ import {
   SubmitSmsRequest,
   SubmitSmsResponse
 } from '../../src/types';
-import { dateToTimestamp } from '../../src/utilities';
+import {
+  dateToTimestamp,
+  errorInterceptor,
+  responseInterceptor
+} from '../../src/utilities';
 
 describe('SmsService', () => {
   let httpClient: AxiosInstance;
@@ -29,6 +33,7 @@ describe('SmsService', () => {
         'user-agent': defaultVersion
       }
     });
+    httpClient.interceptors.response.use(responseInterceptor, errorInterceptor);
 
     smsService = new SmsService(httpClient);
   });

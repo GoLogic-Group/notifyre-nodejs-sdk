@@ -37,7 +37,6 @@ describe('ContactsService', () => {
         'user-agent': defaultVersion
       }
     });
-
     httpClient.interceptors.response.use(responseInterceptor, errorInterceptor);
 
     contactsService = new ContactsService(httpClient);
