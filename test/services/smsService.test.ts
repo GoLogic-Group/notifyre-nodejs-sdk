@@ -142,7 +142,8 @@ describe('SmsService', () => {
   });
 
   it('submitSms - should be able to submit scheduled sms', async () => {
-    const scheduledDate = new Date(2021, 12, 1);
+    const scheduledDate = new Date();
+    scheduledDate.setFullYear(scheduledDate.getFullYear() + 1);
     const mockRequest: SubmitSmsRequest = {
       body: 'test',
       from: '',
