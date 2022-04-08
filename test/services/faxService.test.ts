@@ -1,5 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
-import { ContentType, FileType, RecipientType, Sort } from '../../src/constants';
+import {
+  ContentType,
+  FileType,
+  RecipientType,
+  Sort
+} from '../../src/constants';
 import { baseUrl, defaultVersion } from '../../src/config';
 import { BaseResponse, NotifyreError } from '../../src/models';
 import { FaxService } from '../../src/services';
@@ -180,7 +185,8 @@ describe('FaxService', () => {
   });
 
   it('submitFax - should be able to submit scheduled fax', async () => {
-    const scheduledDate = new Date(2021, 12, 31);
+    const scheduledDate = new Date();
+    scheduledDate.setFullYear(scheduledDate.getFullYear() + 1);
     const mockRequest: SubmitFaxRequest = {
       templateName: '',
       documents: [
