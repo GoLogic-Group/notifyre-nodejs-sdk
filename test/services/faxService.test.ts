@@ -31,7 +31,7 @@ describe('FaxService', () => {
     httpClient = axios.create({
       baseURL: `${baseUrl}/${defaultVersion}`,
       headers: {
-        'x-api-token': '4e0add32-50fc-a6ab-10c3-f824d0769f7e',
+        'x-api-token': '8817ac13-2b93-f11e-be86-6addca81156e',
         'user-agent': defaultVersion
       }
     });
@@ -81,7 +81,7 @@ describe('FaxService', () => {
     };
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockListSentFaxesResponse });
+      .mockResolvedValue(mockListSentFaxesResponse);
 
     await expect(faxService.listSentFaxes(mockRequest)).resolves.toEqual(
       mockListSentFaxesResponse
@@ -97,19 +97,16 @@ describe('FaxService', () => {
   });
 
   it('listSentFaxes - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: ListSentFaxesRequest = {
       fromDate: new Date(),
       toDate: new Date(),
       sort: Sort.Descending,
       limit: 10
     };
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(faxService.listSentFaxes(mockRequest)).resolves.toEqual(
+    await expect(faxService.listSentFaxes(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -157,8 +154,8 @@ describe('FaxService', () => {
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValueOnce({ data: mockUploadDocumentResponse })
-      .mockResolvedValue({ data: mockSubmitFaxResponse });
+      .mockResolvedValueOnce(mockUploadDocumentResponse)
+      .mockResolvedValue(mockSubmitFaxResponse);
 
     await expect(faxService.submitFax(mockRequest)).resolves.toEqual(
       mockSubmitFaxResponse
@@ -229,8 +226,8 @@ describe('FaxService', () => {
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValueOnce({ data: mockUploadDocumentResponse })
-      .mockResolvedValue({ data: mockSubmitFaxResponse });
+      .mockResolvedValueOnce(mockUploadDocumentResponse)
+      .mockResolvedValue(mockSubmitFaxResponse);
 
     await expect(faxService.submitFax(mockRequest)).resolves.toEqual(
       mockSubmitFaxResponse
@@ -257,11 +254,10 @@ describe('FaxService', () => {
   });
 
   it('submitFax - should be able to handle upload document error', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
     const notifyreError = new NotifyreError(
       'The document upload process failed',
       400,
-      [null, mockNotifyreErrorMessage]
+      [null, 'ERROR']
     );
     const mockRequest: SubmitFaxRequest = {
       templateName: '',
@@ -300,17 +296,16 @@ describe('FaxService', () => {
 
     jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValueOnce({ data: mockUploadDocumentResponse })
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+      .mockResolvedValueOnce(mockUploadDocumentResponse)
+      .mockRejectedValue(notifyreError);
 
-    await expect(faxService.submitFax(mockRequest)).resolves.toEqual(
+    await expect(faxService.submitFax(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
 
   it('submitFax - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: SubmitFaxRequest = {
       templateName: '',
       documents: [
@@ -344,10 +339,10 @@ describe('FaxService', () => {
 
     jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValueOnce({ data: mockUploadDocumentResponse })
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+      .mockResolvedValueOnce(mockUploadDocumentResponse)
+      .mockRejectedValue(notifyreError);
 
-    await expect(faxService.submitFax(mockRequest)).resolves.toEqual(
+    await expect(faxService.submitFax(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -364,7 +359,7 @@ describe('FaxService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockDownloadSentFaxResponse });
+      .mockResolvedValue(mockDownloadSentFaxResponse);
 
     await expect(faxService.downloadSentFax(mockRequest)).resolves.toEqual(
       mockDownloadSentFaxResponse
@@ -380,18 +375,15 @@ describe('FaxService', () => {
   });
 
   it('downloadSentFax - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: DownloadSentFaxRequest = {
       id: 'ada2edec-e5e0-4ba4-bae8-a37a0e34becb',
       fileType: FileType.Pdf
     };
 
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(faxService.downloadSentFax(mockRequest)).resolves.toEqual(
+    await expect(faxService.downloadSentFax(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -409,7 +401,7 @@ describe('FaxService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockListCoverPagesResponse });
+      .mockResolvedValue(mockListCoverPagesResponse);
 
     await expect(faxService.listCoverPages()).resolves.toEqual(
       mockListCoverPagesResponse
@@ -418,14 +410,11 @@ describe('FaxService', () => {
   });
 
   it('listCoverPages - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
 
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(faxService.listCoverPages()).resolves.toEqual(notifyreError);
+    await expect(faxService.listCoverPages()).rejects.toEqual(notifyreError);
   });
 
   it('listReceivedFaxes - should be able to return received faxes', async () => {
@@ -449,7 +438,7 @@ describe('FaxService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockListCoverPagesResponse });
+      .mockResolvedValue(mockListCoverPagesResponse);
 
     await expect(faxService.listReceivedFaxes(mockRequest)).resolves.toEqual(
       mockListCoverPagesResponse
@@ -463,14 +452,11 @@ describe('FaxService', () => {
     const mockRequest: ListReceivedFaxesRequest = {
       toNumber: ''
     };
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
 
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(faxService.listReceivedFaxes(mockRequest)).resolves.toEqual(
+    await expect(faxService.listReceivedFaxes(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -484,7 +470,7 @@ describe('FaxService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockDownloadSentFaxResponse });
+      .mockResolvedValue(mockDownloadSentFaxResponse);
 
     await expect(faxService.downloadReceivedFax(mockRequest)).resolves.toEqual(
       mockDownloadSentFaxResponse
@@ -495,13 +481,10 @@ describe('FaxService', () => {
   });
 
   it('downloadReceivedFax - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    const notifyreError = new NotifyreError('ERROR');
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(faxService.downloadReceivedFax('85')).resolves.toEqual(
+    await expect(faxService.downloadReceivedFax('85')).rejects.toEqual(
       notifyreError
     );
   });
@@ -522,7 +505,7 @@ describe('FaxService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockListFaxNumbersResponse });
+      .mockResolvedValue(mockListFaxNumbersResponse);
 
     await expect(faxService.listFaxNumbers()).resolves.toEqual(
       mockListFaxNumbersResponse
@@ -531,13 +514,10 @@ describe('FaxService', () => {
   });
 
   it('listFaxNumbers - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
 
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(faxService.listFaxNumbers()).resolves.toEqual(notifyreError);
+    await expect(faxService.listFaxNumbers()).rejects.toEqual(notifyreError);
   });
 });
