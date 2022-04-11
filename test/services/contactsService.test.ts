@@ -23,6 +23,7 @@ import {
   UpdateGroupRequest,
   UpdateGroupResponse
 } from '../../src/types';
+import { errorInterceptor, responseInterceptor } from '../../src/utilities';
 
 describe('ContactsService', () => {
   let httpClient: AxiosInstance;
@@ -32,10 +33,11 @@ describe('ContactsService', () => {
     httpClient = axios.create({
       baseURL: `${baseUrl}/${defaultVersion}`,
       headers: {
-        'x-api-token': '4e0add32-50fc-a6ab-10c3-f824d0769f7e',
+        'x-api-token': '8817ac13-2b93-f11e-be86-6addca81156e',
         'user-agent': defaultVersion
       }
     });
+    httpClient.interceptors.response.use(responseInterceptor, errorInterceptor);
 
     contactsService = new ContactsService(httpClient);
   });
@@ -96,7 +98,7 @@ describe('ContactsService', () => {
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValue({ data: mockListContactsResponse });
+      .mockResolvedValue(mockListContactsResponse);
 
     await expect(contactsService.listContacts(mockRequest)).resolves.toEqual(
       mockListContactsResponse
@@ -108,8 +110,7 @@ describe('ContactsService', () => {
   });
 
   it('listContacts - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: ListContactsRequest = {
       groupIds: [],
       limit: 10,
@@ -119,11 +120,9 @@ describe('ContactsService', () => {
       sortDir: Sort.Descending,
       type: ''
     };
-    jest
-      .spyOn(httpClient, 'post')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'post').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.listContacts(mockRequest)).resolves.toEqual(
+    await expect(contactsService.listContacts(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -178,7 +177,7 @@ describe('ContactsService', () => {
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValue({ data: mockCreateContactResponse });
+      .mockResolvedValue(mockCreateContactResponse);
 
     await expect(contactsService.createContact(mockRequest)).resolves.toEqual(
       mockCreateContactResponse
@@ -190,8 +189,7 @@ describe('ContactsService', () => {
   });
 
   it('createContact - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: CreateContactRequest = {
       customFields: [
         {
@@ -208,11 +206,9 @@ describe('ContactsService', () => {
       mobileNumber: '+61411111111',
       organization: 'test'
     };
-    jest
-      .spyOn(httpClient, 'post')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'post').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.createContact(mockRequest)).resolves.toEqual(
+    await expect(contactsService.createContact(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -266,7 +262,7 @@ describe('ContactsService', () => {
 
     const httpPutSpy = jest
       .spyOn(httpClient, 'put')
-      .mockResolvedValue({ data: mockUpdateContactResponse });
+      .mockResolvedValue(mockUpdateContactResponse);
 
     await expect(contactsService.updateContact(mockRequest)).resolves.toEqual(
       mockUpdateContactResponse
@@ -278,8 +274,7 @@ describe('ContactsService', () => {
   });
 
   it('updateContact - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: UpdateContactRequest = {
       id: '3e606260-698a-41d3-88f8-7323782e7e38',
       customFields: [
@@ -295,16 +290,14 @@ describe('ContactsService', () => {
       mobileNumber: '+61411111111',
       organization: 'test'
     };
-    jest
-      .spyOn(httpClient, 'put')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'put').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.updateContact(mockRequest)).resolves.toEqual(
+    await expect(contactsService.updateContact(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
 
-  it('deleteContacts - should be able to update contact', async () => {
+  it('deleteContacts - should be able to delete contact', async () => {
     const mockDeleteContactsResponse = new BaseResponse<deleteContactsResponse>(
       true,
       200,
@@ -317,7 +310,7 @@ describe('ContactsService', () => {
 
     const httpDeleteSpy = jest
       .spyOn(httpClient, 'delete')
-      .mockResolvedValue({ data: mockDeleteContactsResponse });
+      .mockResolvedValue(mockDeleteContactsResponse);
 
     await expect(contactsService.deleteContacts(mockRequest)).resolves.toEqual(
       mockDeleteContactsResponse
@@ -328,14 +321,11 @@ describe('ContactsService', () => {
   });
 
   it('deleteContacts - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: string[] = ['d1c42731-f641-4a1c-be20-89d484708ca5'];
-    jest
-      .spyOn(httpClient, 'delete')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'delete').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.deleteContacts(mockRequest)).resolves.toEqual(
+    await expect(contactsService.deleteContacts(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -375,7 +365,7 @@ describe('ContactsService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockGetContactResponse });
+      .mockResolvedValue(mockGetContactResponse);
 
     await expect(contactsService.getContact(mockRequest)).resolves.toEqual(
       mockGetContactResponse
@@ -386,14 +376,11 @@ describe('ContactsService', () => {
   });
 
   it('getContact - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: string = 'd1c42731-f641-4a1c-be20-89d484708ca5';
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.getContact(mockRequest)).resolves.toEqual(
+    await expect(contactsService.getContact(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -410,7 +397,7 @@ describe('ContactsService', () => {
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValue({ data: mockAddContactsToGroupsResponse });
+      .mockResolvedValue(mockAddContactsToGroupsResponse);
 
     await expect(
       contactsService.addContactsToGroups(mockRequest)
@@ -422,19 +409,16 @@ describe('ContactsService', () => {
   });
 
   it('addContactsToGroups - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: AddContactsToGroupsRequest = {
       contacts: ['a294618-7caa-4ab9-9def-174eda370758'],
       groups: ['1be1bffe-eba1-4693-91de-b3ca275179f9']
     };
-    jest
-      .spyOn(httpClient, 'post')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'post').mockRejectedValue(notifyreError);
 
     await expect(
       contactsService.addContactsToGroups(mockRequest)
-    ).resolves.toEqual(notifyreError);
+    ).rejects.toEqual(notifyreError);
   });
 
   it('removeContactsFromGroup - should be able to remove contacts from group', async () => {
@@ -449,7 +433,7 @@ describe('ContactsService', () => {
 
     const httpDeleteSpy = jest
       .spyOn(httpClient, 'delete')
-      .mockResolvedValue({ data: mockAddContactsToGroupsResponse });
+      .mockResolvedValue(mockAddContactsToGroupsResponse);
 
     await expect(
       contactsService.removeContactsFromGroup(mockRequest)
@@ -460,19 +444,16 @@ describe('ContactsService', () => {
   });
 
   it('removeContactsFromGroup - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: RemoveContactsFromGroupRequest = {
       contacts: ['3e606260-698a-41d3-88f8-7323782e7e38'],
       groupID: 'be1bffe-eba1-4693-91de-b3ca275179f9'
     };
-    jest
-      .spyOn(httpClient, 'delete')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'delete').mockRejectedValue(notifyreError);
 
     await expect(
       contactsService.removeContactsFromGroup(mockRequest)
-    ).resolves.toEqual(notifyreError);
+    ).rejects.toEqual(notifyreError);
   });
 
   it('listGroups - should be able to return list of groups', async () => {
@@ -499,7 +480,7 @@ describe('ContactsService', () => {
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
-      .mockResolvedValue({ data: mockListGroupsResponse });
+      .mockResolvedValue(mockListGroupsResponse);
 
     await expect(contactsService.listGroups(mockRequest)).resolves.toEqual(
       mockListGroupsResponse
@@ -510,18 +491,15 @@ describe('ContactsService', () => {
   });
 
   it('listGroups - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: ListGroupsRequest = {
       searchQuery: '',
       sortBy: 'name',
       sortDir: Sort.Descending
     };
-    jest
-      .spyOn(httpClient, 'get')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.listGroups(mockRequest)).resolves.toEqual(
+    await expect(contactsService.listGroups(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -541,7 +519,7 @@ describe('ContactsService', () => {
 
     const httpPostSpy = jest
       .spyOn(httpClient, 'post')
-      .mockResolvedValue({ data: mockListGroupsResponse });
+      .mockResolvedValue(mockListGroupsResponse);
 
     await expect(contactsService.createGroup(mockRequest)).resolves.toEqual(
       mockListGroupsResponse
@@ -552,14 +530,11 @@ describe('ContactsService', () => {
   });
 
   it('createGroup - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: string = 'test';
-    jest
-      .spyOn(httpClient, 'post')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'post').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.createGroup(mockRequest)).resolves.toEqual(
+    await expect(contactsService.createGroup(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -582,7 +557,7 @@ describe('ContactsService', () => {
 
     const httpPutSpy = jest
       .spyOn(httpClient, 'put')
-      .mockResolvedValue({ data: mockUpdateGroupRequest });
+      .mockResolvedValue(mockUpdateGroupRequest);
 
     await expect(contactsService.updateGroup(mockRequest)).resolves.toEqual(
       mockUpdateGroupRequest
@@ -594,17 +569,14 @@ describe('ContactsService', () => {
   });
 
   it('updateGroup - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: UpdateGroupRequest = {
       id: '22ffb7cb-decf-455e-8834-70870d544dd5',
       name: 'test'
     };
-    jest
-      .spyOn(httpClient, 'put')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'put').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.updateGroup(mockRequest)).resolves.toEqual(
+    await expect(contactsService.updateGroup(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });
@@ -622,7 +594,7 @@ describe('ContactsService', () => {
 
     const httpDeleteSpy = jest
       .spyOn(httpClient, 'delete')
-      .mockResolvedValue({ data: mockDeleteGroupsResponse });
+      .mockResolvedValue(mockDeleteGroupsResponse);
 
     await expect(contactsService.deleteGroups(mockRequest)).resolves.toEqual(
       mockDeleteGroupsResponse
@@ -633,14 +605,11 @@ describe('ContactsService', () => {
   });
 
   it('deleteGroups - should be able to handle system errors', async () => {
-    const mockNotifyreErrorMessage = 'ERROR';
-    const notifyreError = new NotifyreError(mockNotifyreErrorMessage);
+    const notifyreError = new NotifyreError('ERROR');
     const mockRequest: string[] = ['72a6d4c5-f30d-412b-bc96-97074fef4b5d'];
-    jest
-      .spyOn(httpClient, 'delete')
-      .mockRejectedValue(new Error(mockNotifyreErrorMessage));
+    jest.spyOn(httpClient, 'delete').mockRejectedValue(notifyreError);
 
-    await expect(contactsService.deleteGroups(mockRequest)).resolves.toEqual(
+    await expect(contactsService.deleteGroups(mockRequest)).rejects.toEqual(
       notifyreError
     );
   });

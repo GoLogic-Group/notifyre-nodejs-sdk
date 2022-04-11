@@ -19,153 +19,87 @@ import {
   UpdateGroupRequest,
   UpdateGroupResponse
 } from '..';
-import { BaseResponse, NotifyreError } from '../models';
+import { BaseResponse } from '../models';
 
 export class ContactsService {
   private basePath = '/addressbook';
 
   constructor(private httpClient: AxiosInstance) {}
 
-  async listContacts(
+  listContacts(
     request: ListContactsRequest
   ): Promise<BaseResponse<ListContactsResponse>> {
-    try {
-      return (
-        await this.httpClient.post(`${this.basePath}/contacts/search`, request)
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.post(`${this.basePath}/contacts/search`, request);
   }
 
-  async createContact(
+  createContact(
     request: CreateContactRequest
   ): Promise<BaseResponse<CreateContactResponse>> {
-    try {
-      return (await this.httpClient.post(`${this.basePath}/contacts`, request))
-        .data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.post(`${this.basePath}/contacts`, request);
   }
 
-  async updateContact(
+  updateContact(
     request: UpdateContactRequest
   ): Promise<BaseResponse<UpdateContactResponse>> {
-    try {
-      return (
-        await this.httpClient.put(
-          `${this.basePath}/contacts/${request.id}`,
-          request
-        )
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.put(
+      `${this.basePath}/contacts/${request.id}`,
+      request
+    );
   }
 
-  async deleteContacts(
+  deleteContacts(
     contacts: string[]
   ): Promise<BaseResponse<deleteContactsResponse>> {
-    try {
-      return (
-        await this.httpClient.delete(`${this.basePath}/contacts`, {
-          data: { contacts }
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.delete(`${this.basePath}/contacts`, {
+      data: { contacts }
+    });
   }
 
-  async getContact(id: string): Promise<BaseResponse<GetContactResponse>> {
-    try {
-      return (await this.httpClient.get(`${this.basePath}/contacts/${id}`))
-        .data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+  getContact(id: string): Promise<BaseResponse<GetContactResponse>> {
+    return this.httpClient.get(`${this.basePath}/contacts/${id}`);
   }
 
-  async addContactsToGroups(
+  addContactsToGroups(
     request: AddContactsToGroupsRequest
   ): Promise<BaseResponse<AddContactsToGroupsResponse>> {
-    try {
-      return (
-        await this.httpClient.post(`${this.basePath}/groups/contacts`, request)
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.post(`${this.basePath}/groups/contacts`, request);
   }
 
-  async removeContactsFromGroup(
+  removeContactsFromGroup(
     request: RemoveContactsFromGroupRequest
   ): Promise<BaseResponse<RemoveContactsFromGroupResponse>> {
-    try {
-      return (
-        await this.httpClient.delete(`${this.basePath}/groups/contacts`, {
-          data: request
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.delete(`${this.basePath}/groups/contacts`, {
+      data: request
+    });
   }
 
-  async listGroups(
+  listGroups(
     request: ListGroupsRequest
   ): Promise<BaseResponse<ListGroupsResponse>> {
-    try {
-      return (
-        await this.httpClient.get(`${this.basePath}/groups`, {
-          params: request
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.get(`${this.basePath}/groups`, {
+      params: request
+    });
   }
 
-  async createGroup(name: string): Promise<BaseResponse<CreateGroupResponse>> {
-    try {
-      return (
-        await this.httpClient.post(`${this.basePath}/groups`, {
-          name
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+  createGroup(name: string): Promise<BaseResponse<CreateGroupResponse>> {
+    return this.httpClient.post(`${this.basePath}/groups`, {
+      name
+    });
   }
 
-  async updateGroup(
+  updateGroup(
     request: UpdateGroupRequest
   ): Promise<BaseResponse<UpdateGroupResponse>> {
-    try {
-      return (
-        await this.httpClient.put(`${this.basePath}/groups/${request.id}`, {
-          name: request.name
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.put(`${this.basePath}/groups/${request.id}`, {
+      name: request.name
+    });
   }
 
-  async deleteGroups(
-    groups: string[]
-  ): Promise<BaseResponse<DeleteGroupsResponse>> {
-    try {
-      return (
-        await this.httpClient.delete(`${this.basePath}/groups`, {
-          data: {
-            groups
-          }
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+  deleteGroups(groups: string[]): Promise<BaseResponse<DeleteGroupsResponse>> {
+    return this.httpClient.delete(`${this.basePath}/groups`, {
+      data: {
+        groups
+      }
+    });
   }
 }

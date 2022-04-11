@@ -56,3 +56,9 @@ export declare enum EventType {
     SmsReceived = "sms_received",
     SmsSent = "sms_sent"
 }
+export declare enum DocumentStatus {
+    Converting = "converting",
+    Failed = "failed",
+    Initialised = "initialised",
+    Successful = "successful"
+}

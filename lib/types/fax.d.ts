@@ -1,4 +1,5 @@
 import { Recipient } from '.';
+import { DocumentStatus } from '../constants';
 export interface ListSentFaxesRequest {
     fromDate: Date;
     toDate: Date;
@@ -42,12 +43,18 @@ export interface UploadDocumentResponse {
     fileID: string;
     fileName: string;
 }
+export interface GetDocumentStatusResponse {
+    id: string;
+    status: DocumentStatus;
+    pages: number | null;
+    fileName: string;
+}
 export interface FaxDocument {
     base64Str: string;
     contentType: string;
 }
 export interface DownloadSentFaxRequest {
-    id: string;
+    recipientID: string;
     fileType: string;
 }
 export interface DownloadSentFaxResponse {

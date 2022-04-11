@@ -1,5 +1,10 @@
 import { NotifyreError } from '../src';
-import { dateToTimestamp, verifySignature } from '../src/utilities';
+import {
+  dateToTimestamp,
+  errorInterceptor,
+  responseInterceptor,
+  verifySignature
+} from '../src/utilities';
 
 describe('Utilities', () => {
   it('dateToTimestamp - should be able to return unix timestamp', () => {
@@ -201,5 +206,53 @@ describe('Utilities', () => {
         Number.MAX_SAFE_INTEGER
       )
     ).toBeTruthy();
+  });
+
+  it('responseInterceptor - should be able to return response data', () => {
+    const mockResponseData = {
+      success: true,
+      statusCode: 200,
+      payload: null,
+      message: 'OK',
+      errors: []
+    };
+
+    expect(responseInterceptor({ data: mockResponseData } as any)).toEqual(
+      mockResponseData
+    );
+  });
+
+  it('errorInterceptor - should be able to return error response data as instance of NotifyreError class', async () => {
+    const mockErrorResponseData = {
+      success: false,
+      statusCode: 400,
+      payload: null,
+      message: 'Failed',
+      errors: []
+    };
+    const mockNotifyreError = new NotifyreError(
+      mockErrorResponseData.message,
+      mockErrorResponseData.statusCode,
+      mockErrorResponseData.errors
+    );
+
+    await expect(
+      errorInterceptor({
+        response: {
+          data: mockErrorResponseData
+        }
+      } as any)
+    ).rejects.toEqual(mockNotifyreError);
+  });
+
+  it('errorInterceptor - should be able to return generic error response as instance of NotifyreError class', async () => {
+    const mockError = 'Failed';
+    const mockNotifyreError = new NotifyreError(mockError);
+
+    await expect(
+      errorInterceptor({
+        message: mockError
+      } as any)
+    ).rejects.toEqual(mockNotifyreError);
   });
 });

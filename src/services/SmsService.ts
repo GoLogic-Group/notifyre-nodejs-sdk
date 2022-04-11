@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { BaseResponse, NotifyreError } from '../models';
+import { BaseResponse } from '../models';
 import {
   GetSmsReplyResponse,
   GetSmsRequest,
@@ -19,91 +19,56 @@ export class SmsService {
 
   constructor(private httpClient: AxiosInstance) {}
 
-  async listSentSms(
+  listSentSms(
     request: ListSentSmsRequest
   ): Promise<BaseResponse<ListSentSmsResponse>> {
-    try {
-      return (
-        await this.httpClient.get(`${this.basePath}/send`, {
-          params: {
-            fromDate: dateToTimestamp(request.fromDate, false),
-            toDate: dateToTimestamp(request.toDate, true),
-            sort: request.sort,
-            limit: request.limit
-          }
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.get(`${this.basePath}/send`, {
+      params: {
+        fromDate: dateToTimestamp(request.fromDate, false),
+        toDate: dateToTimestamp(request.toDate, true),
+        sort: request.sort,
+        limit: request.limit
+      }
+    });
   }
 
-  async submitSms(
+  submitSms(
     request: SubmitSmsRequest
   ): Promise<BaseResponse<SubmitSmsResponse>> {
-    try {
-      return (
-        await this.httpClient.post(`${this.basePath}/send`, {
-          body: request.body,
-          recipients: request.recipients,
-          from: request.from,
-          scheduledDate: request.scheduledDate
-            ? dateToTimestamp(request.scheduledDate)
-            : null
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.post(`${this.basePath}/send`, {
+      body: request.body,
+      recipients: request.recipients,
+      from: request.from,
+      scheduledDate: request.scheduledDate
+        ? dateToTimestamp(request.scheduledDate)
+        : null
+    });
   }
 
-  async getSms(request: GetSmsRequest): Promise<BaseResponse<GetSmsResponse>> {
-    try {
-      return (
-        await this.httpClient.get(
-          `${this.basePath}/send/${request.messageID}/recipients/${request.recipientID}`
-        )
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+  getSms(request: GetSmsRequest): Promise<BaseResponse<GetSmsResponse>> {
+    return this.httpClient.get(
+      `${this.basePath}/send/${request.messageID}/recipients/${request.recipientID}`
+    );
   }
 
-  async listSmsReplies(
+  listSmsReplies(
     request: ListSmsRepliesRequest
   ): Promise<BaseResponse<ListSmsRepliesResponse>> {
-    try {
-      return (
-        await this.httpClient.get(`${this.basePath}/received`, {
-          params: {
-            fromDate: dateToTimestamp(request.fromDate, false),
-            toDate: dateToTimestamp(request.toDate, true),
-            sort: request.sort,
-            limit: request.limit
-          }
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.get(`${this.basePath}/received`, {
+      params: {
+        fromDate: dateToTimestamp(request.fromDate, false),
+        toDate: dateToTimestamp(request.toDate, true),
+        sort: request.sort,
+        limit: request.limit
+      }
+    });
   }
 
-  async getSmsReply(
-    replyID: string
-  ): Promise<BaseResponse<GetSmsReplyResponse>> {
-    try {
-      return (await this.httpClient.get(`${this.basePath}/received/${replyID}`))
-        .data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+  getSmsReply(replyID: string): Promise<BaseResponse<GetSmsReplyResponse>> {
+    return this.httpClient.get(`${this.basePath}/received/${replyID}`);
   }
 
-  async listSmsNumbers(): Promise<BaseResponse<ListSmsNumbersResponse>> {
-    try {
-      return (await this.httpClient.get(`${this.basePath}/numbers`)).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+  listSmsNumbers(): Promise<BaseResponse<ListSmsNumbersResponse>> {
+    return this.httpClient.get(`${this.basePath}/numbers`);
   }
 }

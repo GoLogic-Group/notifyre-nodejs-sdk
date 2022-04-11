@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { DocumentStatus } from '../constants';
 import { BaseResponse, NotifyreError } from '../models';
 import {
   DownloadReceivedFaxResponse,
@@ -13,7 +14,8 @@ import {
   ListSentFaxesResponse,
   SubmitFaxRequest,
   SubmitFaxResponse,
-  UploadDocumentResponse
+  UploadDocumentResponse,
+  GetDocumentStatusResponse
 } from '../types';
 import { dateToTimestamp } from '../utilities';
 
@@ -22,134 +24,141 @@ export class FaxService {
 
   constructor(private httpClient: AxiosInstance) {}
 
-  async listSentFaxes(
+  listSentFaxes(
     request: ListSentFaxesRequest
   ): Promise<BaseResponse<ListSentFaxesResponse>> {
-    try {
-      return (
-        await this.httpClient.get(`${this.basePath}/send`, {
-          params: {
-            fromDate: dateToTimestamp(request.fromDate, false),
-            toDate: dateToTimestamp(request.toDate, true),
-            sort: request.sort,
-            limit: request.limit
-          }
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.get(`${this.basePath}/send`, {
+      params: {
+        fromDate: dateToTimestamp(request.fromDate, false),
+        toDate: dateToTimestamp(request.toDate, true),
+        sort: request.sort,
+        limit: request.limit
+      }
+    });
   }
 
   async submitFax(
     request: SubmitFaxRequest
   ): Promise<BaseResponse<SubmitFaxResponse>> {
-    try {
-      const files = await Promise.all(
-        request.documents.map((document) => this.uploadDocument(document))
+    const files = await Promise.all(
+      request.documents.map((document) => this.uploadDocument(document))
+    );
+
+    if (files.find((file) => !file.success)) {
+      throw new NotifyreError(
+        'The document upload process failed',
+        400,
+        files.map((file) => (file.success ? null : file.message))
       );
-
-      if (files.find((file) => !file.success)) {
-        return new NotifyreError(
-          'The document upload process failed',
-          400,
-          files.map((file) => (file.success ? null : file.message))
-        );
-      }
-
-      return (
-        await this.httpClient.post(`${this.basePath}/send`, {
-          templateName: request.templateName,
-          faxes: {
-            clientReference: request.clientReference,
-            files: files.map((file) => file.payload!.fileID),
-            header: request.header,
-            isHighQuality: request.isHighQuality,
-            recipients: request.recipients,
-            scheduledDate: request.scheduledDate
-              ? dateToTimestamp(request.scheduledDate)
-              : null,
-            sendFrom: request.sendFrom,
-            senderID: request.sendFrom,
-            subject: request.subject
-          }
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
     }
+
+    const documents: BaseResponse<GetDocumentStatusResponse>[] =
+      await this.pollDocumentsStatus(files.map((file) => file.payload!));
+
+    return this.httpClient.post(`${this.basePath}/send`, {
+      templateName: request.templateName,
+      faxes: {
+        clientReference: request.clientReference,
+        files: documents.map((document) => document.payload!.id),
+        header: request.header,
+        isHighQuality: request.isHighQuality,
+        recipients: request.recipients,
+        scheduledDate: request.scheduledDate
+          ? dateToTimestamp(request.scheduledDate)
+          : null,
+        sendFrom: request.sendFrom,
+        senderID: request.sendFrom,
+        subject: request.subject
+      }
+    });
   }
 
-  private async uploadDocument(
+  private uploadDocument(
     request: FaxDocument
   ): Promise<BaseResponse<UploadDocumentResponse>> {
-    try {
-      return (
-        await this.httpClient.post(`${this.basePath}/send/conversion`, request)
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient
+      .post(`${this.basePath}/send/conversion`, request)
+      .catch((err) => err);
   }
 
-  async downloadSentFax(
+  downloadSentFax(
     request: DownloadSentFaxRequest
   ): Promise<BaseResponse<DownloadSentFaxResponse>> {
-    try {
-      return (
-        await this.httpClient.get(
-          `${this.basePath}/send/recipients/${request.id}/download`,
-          {
-            params: {
-              fileType: request.fileType
-            }
-          }
+    return this.httpClient.get(
+      `${this.basePath}/send/recipients/${request.recipientID}/download`,
+      {
+        params: {
+          fileType: request.fileType
+        }
+      }
+    );
+  }
+
+  private async pollDocumentsStatus(
+    request: UploadDocumentResponse[],
+    iteration = 1
+  ): Promise<BaseResponse<GetDocumentStatusResponse>[]> {
+    if (iteration !== 1) {
+      await new Promise<void>((resolve) =>
+        setTimeout(() => {
+          resolve();
+        }, iteration * 5000)
+      );
+    }
+
+    const documents: BaseResponse<GetDocumentStatusResponse>[] =
+      await Promise.all(
+        request.map((document) =>
+          this.httpClient
+            .get(`${this.basePath}/send/conversion/${document.fileName}`)
+            .catch((err) => err)
         )
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
+      );
+
+    if (
+      documents.find(
+        (document) => document.payload?.status === DocumentStatus.Failed
+      )
+    ) {
+      throw new NotifyreError(
+        'The document conversion process failed',
+        400,
+        documents.map((document) =>
+          document.success ? null : document.message
+        )
+      );
     }
+
+    if (
+      documents.every(
+        (document) => document.payload?.status === DocumentStatus.Successful
+      )
+    ) {
+      return documents;
+    }
+
+    return this.pollDocumentsStatus(request, iteration + 1);
   }
 
-  async listCoverPages(): Promise<BaseResponse<ListCoverPagesResponse[]>> {
-    try {
-      return (await this.httpClient.get(`${this.basePath}/coverpages`)).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+  listCoverPages(): Promise<BaseResponse<ListCoverPagesResponse[]>> {
+    return this.httpClient.get(`${this.basePath}/coverpages`);
   }
 
-  async listReceivedFaxes(
+  listReceivedFaxes(
     request: ListReceivedFaxesRequest
   ): Promise<BaseResponse<ListReceivedFaxesResponse[]>> {
-    try {
-      return (
-        await this.httpClient.get(`${this.basePath}/received`, {
-          params: request
-        })
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.get(`${this.basePath}/received`, {
+      params: request
+    });
   }
 
-  async downloadReceivedFax(
+  downloadReceivedFax(
     faxId: string
   ): Promise<BaseResponse<DownloadReceivedFaxResponse>> {
-    try {
-      return (
-        await this.httpClient.get(`${this.basePath}/received/${faxId}/download`)
-      ).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+    return this.httpClient.get(`${this.basePath}/received/${faxId}/download`);
   }
 
-  async listFaxNumbers(): Promise<BaseResponse<ListFaxNumbersResponse>> {
-    try {
-      return (await this.httpClient.get(`${this.basePath}/numbers`)).data;
-    } catch (err: any) {
-      return new NotifyreError(err.message);
-    }
+  listFaxNumbers(): Promise<BaseResponse<ListFaxNumbersResponse>> {
+    return this.httpClient.get(`${this.basePath}/numbers`);
   }
 }
