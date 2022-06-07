@@ -552,7 +552,8 @@ describe('FaxService', () => {
     const mockRequest = '85';
     const mockDownloadSentFaxResponse =
       new BaseResponse<DownloadReceivedFaxResponse>(true, 200, 'OK', {
-        tiffBase64: 'dGVzdA=='
+        tiffBase64: 'dGVzdA==',
+        type: 'application/pdf'
       });
 
     const httpGetSpy = jest
