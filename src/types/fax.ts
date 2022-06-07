@@ -95,6 +95,7 @@ export interface ListReceivedFaxesResponse {
 
 export interface DownloadReceivedFaxResponse {
   tiffBase64: string;
+  type: string;
 }
 
 export interface ListFaxNumbersResponse {
