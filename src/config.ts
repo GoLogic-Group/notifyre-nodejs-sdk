@@ -1,3 +1,2 @@
-export const defaultVersion = '20210928';
-
+export const defaultVersion = '20220526';
 export const baseUrl = ' https://api.notifyre.com';
