@@ -125,7 +125,9 @@ describe('SmsService', () => {
       body: 'test',
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
-      scheduledDate: null
+      scheduledDate: null,
+      optOutMessage: true,
+      addUnsubscribeLink: true
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -150,7 +152,9 @@ describe('SmsService', () => {
       body: 'test',
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
-      scheduledDate
+      scheduledDate,
+      optOutMessage: false,
+      addUnsubscribeLink: true
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -169,7 +173,9 @@ describe('SmsService', () => {
       body: mockRequest.body,
       recipients: mockRequest.recipients,
       from: mockRequest.from,
-      scheduledDate: dateToTimestamp(scheduledDate)
+      scheduledDate: dateToTimestamp(scheduledDate),
+      optOutMessage: mockRequest.optOutMessage,
+      addUnsubscribeLink: mockRequest.addUnsubscribeLink
     });
   });
 
@@ -178,7 +184,9 @@ describe('SmsService', () => {
       body: 'test',
       from: '+61411111111',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
-      scheduledDate: null
+      scheduledDate: null,
+      optOutMessage: true,
+      addUnsubscribeLink: true
     };
     const notifyreError = new NotifyreError('ERROR');
 

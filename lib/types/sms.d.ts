@@ -38,6 +38,8 @@ export interface SubmitSmsRequest {
     recipients: Recipient[];
     from: string;
     scheduledDate: Date | null;
+    optOutMessage: boolean;
+    addUnsubscribeLink: boolean;
 }
 export interface SubmitSmsResponse {
     smsMessageID: string;
