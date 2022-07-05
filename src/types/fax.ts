@@ -26,6 +26,7 @@ export interface SentFax {
   highQuality: boolean;
   pages: number;
   status: string;
+  failedMessage: string;
 }
 
 export interface SubmitFaxRequest {
