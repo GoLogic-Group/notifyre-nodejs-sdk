@@ -36,6 +36,8 @@ export interface SmsRecipient {
   queuedDateUtc: number | null;
   status: string;
   toNumber: string;
+  statusMessage: string;
+  message: string;
 }
 
 export interface SubmitSmsRequest {
