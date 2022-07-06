@@ -1,6 +1,6 @@
 import { ContactsService, FaxService, SmsService } from './services';
 export declare class NotifyreAPI {
-    private apiKey;
+    readonly apiKey: string;
     private version;
     private handleResponse;
     private handleError;
