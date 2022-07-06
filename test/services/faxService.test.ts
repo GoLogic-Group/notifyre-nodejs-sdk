@@ -73,7 +73,8 @@ describe('FaxService', () => {
             recipientID: '12d96f50-e210-4864-a3db-f549c929ab05',
             reference: '',
             status: 'successful',
-            to: '+61291989589'
+            to: '+61291989589',
+            failedMessage: ''
           }
         ]
       }

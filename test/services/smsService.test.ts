@@ -5,8 +5,9 @@ import { BaseResponse, NotifyreError } from '../../src/models';
 import { SmsService } from '../../src/services';
 import {
   GetSmsReplyResponse,
-  GetSmsRequest,
   GetSmsResponse,
+  GetSmsRecipientRequest,
+  GetSmsRecipientResponse,
   ListSmsNumbersResponse,
   ListSentSmsRequest,
   ListSentSmsResponse,
@@ -70,7 +71,8 @@ describe('SmsService', () => {
               messageParts: 1,
               queuedDateUtc: 1631236195,
               status: 'queued',
-              toNumber: '+639167074534'
+              toNumber: '+639167074534',
+              statusMessage: '',
             },
             status: 'queued',
             submittedDateUtc: 1631236195,
@@ -198,10 +200,8 @@ describe('SmsService', () => {
   });
 
   it('getSms - should be able to return sent sms details', async () => {
-    const mockRequest: GetSmsRequest = {
-      messageID: '0a5c9565-bba2-4406-96df-d9ffd85b2830',
-      recipientID: '6a5d0164-2eb3-4cfb-9bf5-f4fc5682faf4'
-    };
+    const mockRequest: string = '0a5c9565-bba2-4406-96df-d9ffd85b2830';
+    
     const mockGetSmsResponse: GetSmsResponse = {
       accountID: 'KQNJ90KA',
       completedDateUtc: null,
@@ -219,7 +219,8 @@ describe('SmsService', () => {
         messageParts: 1,
         queuedDateUtc: 1631236195,
         status: 'queued',
-        toNumber: '+639167074534'
+        toNumber: '+639167074534',
+        statusMessage:'',
       },
       status: 'queued',
       submittedDateUtc: 1631236195,
@@ -234,12 +235,64 @@ describe('SmsService', () => {
       mockGetSmsResponse
     );
     expect(httpGetSpy).toHaveBeenCalledWith(
-      `/sms/send/${mockRequest.messageID}/recipients/${mockRequest.recipientID}`
+      `/sms/send/${mockRequest}`
     );
   });
 
   it('getSms - should be able to handle system errors', async () => {
-    const mockRequest: GetSmsRequest = {
+    const mockRequest: string = '0a5c9565-bba2-4406-96df-d9ffd85b2830';
+    const notifyreError = new NotifyreError('ERROR');
+
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
+
+    await expect(smsService.getSms(mockRequest)).rejects.toEqual(notifyreError);
+  });
+
+  it('getSmsRecipient - should be able to return sent sms details', async () => {
+    const mockRequest: GetSmsRecipientRequest = {
+      messageID: '0a5c9565-bba2-4406-96df-d9ffd85b2830',
+      recipientID: '6a5d0164-2eb3-4cfb-9bf5-f4fc5682faf4'
+    };
+    const mockGetSmsResponse: GetSmsRecipientResponse = {
+      accountID: 'KQNJ90KA',
+      completedDateUtc: null,
+      createdBy: '03529753-bb63-4b6f-917d-c5a769b7442a',
+      createdDateUtc: 1631236194,
+      friendlyID: 'MTMYPLORQYTY',
+      id: 'dea3713b-8d47-4893-9290-633d67a1b304',
+      lastModifiedDateUtc: 1631236195,
+      recipient: {
+        completedDateUtc: null,
+        cost: 0.06,
+        costPerPart: 0.06,
+        fromNumber: 'Shared Number ()',
+        id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
+        messageParts: 1,
+        queuedDateUtc: 1631236195,
+        status: 'queued',
+        toNumber: '+639167074534',
+        statusMessage:'',
+        message:'sample message'
+      },
+      status: 'queued',
+      submittedDateUtc: 1631236195,
+      totalCost: 6
+    };
+
+    const httpGetSpy = jest
+      .spyOn(httpClient, 'get')
+      .mockResolvedValue(mockGetSmsResponse);
+
+    await expect(smsService.getSmsRecipientMessage(mockRequest)).resolves.toEqual(
+      mockGetSmsResponse
+    );
+    expect(httpGetSpy).toHaveBeenCalledWith(
+      `/sms/send/${mockRequest.messageID}/recipients/${mockRequest.recipientID}`
+    );
+  });
+
+  it('getSmsRecipient - should be able to handle system errors', async () => {
+    const mockRequest: GetSmsRecipientRequest = {
       messageID: '0a5c9565-bba2-4406-96df-d9ffd85b2830',
       recipientID: '6a5d0164-2eb3-4cfb-9bf5-f4fc5682faf4'
     };
@@ -247,7 +300,7 @@ describe('SmsService', () => {
 
     jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(smsService.getSms(mockRequest)).rejects.toEqual(notifyreError);
+    await expect(smsService.getSmsRecipientMessage(mockRequest)).rejects.toEqual(notifyreError);
   });
 
   it('listSmsReplies - should be able to return list of received sms', async () => {

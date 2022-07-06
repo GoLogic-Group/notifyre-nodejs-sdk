@@ -32,14 +32,15 @@ export interface SmsRecipient {
     queuedDateUtc: number | null;
     status: string;
     toNumber: string;
+    statusMessage: string;
 }
 export interface SubmitSmsRequest {
     body: string;
     recipients: Recipient[];
     from: string;
     scheduledDate: Date | null;
-    optOutMessage: boolean;
-    addUnsubscribeLink: boolean;
+    optOutMessage?: boolean;
+    addUnsubscribeLink?: boolean;
 }
 export interface SubmitSmsResponse {
     smsMessageID: string;
@@ -50,11 +51,37 @@ export interface InvalidSmsToNumber {
     number: string;
     message: string;
 }
-export interface GetSmsRequest {
+export interface GetSmsResponse extends SentSms {
+}
+export interface GetSmsRecipientRequest {
     messageID: string;
     recipientID: string;
 }
-export interface GetSmsResponse extends SentSms {
+export interface GetSmsRecipientResponse {
+    accountID: string;
+    completedDateUtc: number | null;
+    createdBy: string;
+    createdDateUtc: number;
+    friendlyID: string;
+    id: string;
+    lastModifiedDateUtc: number | null;
+    recipient: SmsMessageRecipient;
+    status: string;
+    submittedDateUtc: number | null;
+    totalCost: number;
+}
+export interface SmsMessageRecipient {
+    completedDateUtc: number | null;
+    cost: number;
+    costPerPart: number;
+    fromNumber: string;
+    id: string;
+    messageParts: number;
+    queuedDateUtc: number | null;
+    status: string;
+    toNumber: string;
+    statusMessage: string;
+    message: string;
 }
 export interface ListSmsRepliesRequest {
     fromDate: Date;
