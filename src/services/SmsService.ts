@@ -2,8 +2,9 @@ import { AxiosInstance } from 'axios';
 import { BaseResponse } from '../models';
 import {
   GetSmsReplyResponse,
-  GetSmsRequest,
   GetSmsResponse,
+  GetSmsRecipientRequest,
+  GetSmsRecipientResponse,
   ListSmsNumbersResponse,
   ListSmsRepliesRequest,
   ListSmsRepliesResponse,
@@ -47,7 +48,13 @@ export class SmsService {
     });
   }
 
-  getSms(request: GetSmsRequest): Promise<BaseResponse<GetSmsResponse>> {
+  getSms(id: string): Promise<BaseResponse<GetSmsResponse>> {
+    return this.httpClient.get(
+      `${this.basePath}/send/${id}`
+    );
+  }
+
+  getSmsRecipientMessage(request: GetSmsRecipientRequest): Promise<BaseResponse<GetSmsRecipientResponse>> {
     return this.httpClient.get(
       `${this.basePath}/send/${request.messageID}/recipients/${request.recipientID}`
     );
