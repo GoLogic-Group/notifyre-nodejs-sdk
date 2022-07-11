@@ -102,7 +102,30 @@ export interface ListSmsRepliesRequest {
 }
 
 export interface ListSmsRepliesResponse {
-  smsReplies: SmsReply[];
+  smsReplies: SmsReplies[];
+}
+
+export interface SmsReplies {
+  recipientID: string;
+  recipientNumber: string;
+  senderNumber: string;
+  replyDetails: SmsReplyDetails;
+  createdDateUtc: number;
+  contactDetails: SenderContactDetails | null;
+}
+
+export interface SenderContactDetails {
+  firstName: string;
+  lastName: string;
+  organization: string;
+}
+
+export interface SmsReplyDetails {
+  replyID: string;
+  externalReplyID: string;
+  provider: string;
+  receivedDateUtc: number;
+  createdDateUtc: number | null;
 }
 
 export interface SmsReply {
@@ -114,13 +137,6 @@ export interface SmsReply {
   receivedDateUtc: number;
   contactDetails: SenderContactDetails | null;
 }
-
-export interface SenderContactDetails {
-  firstName: string;
-  lastName: string;
-  organization: string;
-}
-
 export interface GetSmsReplyResponse extends SmsReply {}
 
 export interface ListSmsNumbersResponse {

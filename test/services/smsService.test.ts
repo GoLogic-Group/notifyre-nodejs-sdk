@@ -314,9 +314,14 @@ describe('SmsService', () => {
             recipientID: '03529753-bb63-4b6f-917d-c5a769b7442a',
             recipientNumber: '+61411111111',
             senderNumber: '+61444444444',
-            replyID: 'dea3713b-8d47-4893-9290-633d67a1b304',
-            message: 'test',
-            receivedDateUtc: 1631236195,
+            replyDetails: {
+                replyID: 'dea3713b-8d47-4893-9290-633d67a1b304',
+                createdDateUtc: 1631236195,
+                externalReplyID: 'e5c3750e-13a4-48d6-b71d-cae0ed1bf7ea',
+                provider: 'provider',
+                receivedDateUtc: 1631236195
+            },
+            createdDateUtc: 1631236195,
             contactDetails: null
           }
         ]
