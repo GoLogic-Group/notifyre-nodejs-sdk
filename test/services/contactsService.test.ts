@@ -80,7 +80,8 @@ describe('ContactsService', () => {
             id: 'd1c42731-f641-4a1c-be20-89d484708ca5',
             lastName: 'fax',
             mobileNumber: '+61411111111',
-            organization: ''
+            organization: '',
+            unsubscribe: false
           }
         ],
         total: 1
@@ -155,7 +156,8 @@ describe('ContactsService', () => {
         id: 'd1c42731-f641-4a1c-be20-89d484708ca5',
         lastName: 'fax',
         mobileNumber: '+61411111111',
-        organization: ''
+        organization: '',
+        unsubscribe: false
       }
     );
     const mockRequest: CreateContactRequest = {
@@ -241,7 +243,8 @@ describe('ContactsService', () => {
         id: 'd1c42731-f641-4a1c-be20-89d484708ca5',
         lastName: 'fax',
         mobileNumber: '+61411111111',
-        organization: ''
+        organization: '',
+        unsubscribe: false
       }
     );
     const mockRequest: UpdateContactRequest = {
@@ -358,7 +361,8 @@ describe('ContactsService', () => {
         id: 'd1c42731-f641-4a1c-be20-89d484708ca5',
         lastName: 'fax',
         mobileNumber: '+61411111111',
-        organization: ''
+        organization: '',
+        unsubscribe: false
       }
     );
     const mockRequest: string = 'd1c42731-f641-4a1c-be20-89d484708ca5';
@@ -464,10 +468,14 @@ describe('ContactsService', () => {
       {
         groups: [
           {
-            contactsCount: 1,
+            
             createdDateUtc: 1635982170,
             id: '1be1bffe-eba1-4693-91de-b3ca275179f9',
-            name: 'test'
+            name: 'test',
+            totalContacts: 1,
+            totalUnsubscribed: 0,
+            totalSMSContacts: 1,
+            totalFaxContacts: 1,
           }
         ]
       }
