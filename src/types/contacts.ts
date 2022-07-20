@@ -20,7 +20,7 @@ export interface Contact {
   faxNumber: string;
   firstName: string;
   fullName: string;
-  groups: Omit<Group, 'totalContacts' | 'totalUnsubscribed' | 'totalSMSContacts' | 'totalFaxContacts'>[];
+  groups: BaseGroup[];
   id: string;
   lastName: string;
   mobileNumber: string;
@@ -99,14 +99,26 @@ export interface Group {
   totalFaxContacts: number;
 }
 
-export interface CreateGroupResponse extends Omit<Group, 'totalContacts' | 'totalUnsubscribed' | 'totalSMSContacts' | 'totalFaxContacts'> {}
+export interface BaseGroup {
+  createdDateUtc: number;
+  id: string;
+  name: string;
+  }
+  
+  export interface Group extends BaseGroup {
+  totalContacts: number;
+  totalUnsubscribed: number;
+  totalSMSContacts: number;
+  totalFaxContacts: number;
+  }
+export interface CreateGroupResponse extends BaseGroup {}
 
 export interface UpdateGroupRequest {
   id: string;
   name: string;
 }
 
-export interface UpdateGroupResponse extends Omit<Group, 'totalContacts' | 'totalUnsubscribed' | 'totalSMSContacts' | 'totalFaxContacts'> {}
+export interface UpdateGroupResponse extends BaseGroup {}
 
 export interface DeleteGroupsResponse {
   deleted: boolean;
