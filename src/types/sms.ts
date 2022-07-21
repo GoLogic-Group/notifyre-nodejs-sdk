@@ -46,6 +46,7 @@ export interface SubmitSmsRequest {
   scheduledDate: Date | null;
   optOutMessage?: boolean;
   addUnsubscribeLink?: boolean;
+  metadata?: object;
 }
 
 export interface SubmitSmsResponse {
