@@ -51,7 +51,16 @@ export interface InvalidSmsToNumber {
     number: string;
     message: string;
 }
-export interface GetSmsResponse extends SentSms {
+export interface GetSmsResponse {
+    id: string;
+    friendlyID: string;
+    accountID: string;
+    createdBy: string;
+    recipients: SmsRecipient[];
+    createdDateUtc: Date | null;
+    submittedDateUtc: Date | null;
+    completedDateUtc: Date | null;
+    lastModifiedDateUtc: Date | null;
 }
 export interface GetSmsRecipientRequest {
     messageID: string;
