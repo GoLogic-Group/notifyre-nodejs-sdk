@@ -24,7 +24,7 @@ export interface SentSms {
   status: string;
   submittedDateUtc: number | null;
   totalCost: number;
-  metadata: object | null;
+  metadata?: object | null;
 }
 
 export interface SmsRecipient {
@@ -68,6 +68,7 @@ export interface GetSmsResponse {
   accountID: string;
   createdBy: string;
   recipients: SmsRecipient[];
+  metadata?: object;
   createdDateUtc: Date | null;
   submittedDateUtc: Date | null;
   completedDateUtc: Date | null;
@@ -91,7 +92,7 @@ export interface GetSmsRecipientResponse {
   status: string;
   submittedDateUtc: number | null;
   totalCost: number;
-  metadata: object | null;
+  metadata?: object | null;
 }
 
 export interface SmsMessageRecipient {

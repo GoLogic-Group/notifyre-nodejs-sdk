@@ -41,6 +41,8 @@ export interface SubmitSmsRequest {
     scheduledDate: Date | null;
     optOutMessage?: boolean;
     addUnsubscribeLink?: boolean;
+    callbackUrl: string;
+    metadata: object;
 }
 export interface SubmitSmsResponse {
     smsMessageID: string;
@@ -57,6 +59,7 @@ export interface GetSmsResponse {
     accountID: string;
     createdBy: string;
     recipients: SmsRecipient[];
+    metadata: object;
     createdDateUtc: Date | null;
     submittedDateUtc: Date | null;
     completedDateUtc: Date | null;
