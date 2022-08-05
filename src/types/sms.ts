@@ -24,6 +24,7 @@ export interface SentSms {
   status: string;
   submittedDateUtc: number | null;
   totalCost: number;
+  metadata: object | null;
 }
 
 export interface SmsRecipient {
@@ -47,6 +48,7 @@ export interface SubmitSmsRequest {
   optOutMessage?: boolean;
   addUnsubscribeLink?: boolean;
   callbackUrl?: string;
+  metadata?: object;
 }
 
 export interface SubmitSmsResponse {
@@ -89,6 +91,7 @@ export interface GetSmsRecipientResponse {
   status: string;
   submittedDateUtc: number | null;
   totalCost: number;
+  metadata: object | null;
 }
 
 export interface SmsMessageRecipient {
