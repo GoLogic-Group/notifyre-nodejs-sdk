@@ -6,6 +6,7 @@ export interface ListContactsRequest {
   sortBy: string;
   sortDir: string;
   groupIds: string[];
+  includeUnsubscribed: boolean;
 }
 
 export interface ListContactsResponse {

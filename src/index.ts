@@ -7,8 +7,8 @@ export class NotifyreAPI {
   private httpClient: AxiosInstance;
 
   constructor(
-    public readonly apiKey: string,
-    private version: string = defaultVersion,
+    private apiKey: string,
+    public readonly version: string = defaultVersion,
     private handleResponse = responseInterceptor,
     private handleError = errorInterceptor
   ) {
