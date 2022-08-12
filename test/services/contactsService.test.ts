@@ -94,7 +94,8 @@ describe('ContactsService', () => {
       searchQuery: '',
       sortBy: 'name',
       sortDir: Sort.Descending,
-      type: ''
+      type: '',
+      includeUnsubscribed: false
     };
 
     const httpPostSpy = jest
@@ -119,7 +120,8 @@ describe('ContactsService', () => {
       searchQuery: '',
       sortBy: 'name',
       sortDir: Sort.Descending,
-      type: ''
+      type: '',
+      includeUnsubscribed: false
     };
     jest.spyOn(httpClient, 'post').mockRejectedValue(notifyreError);
 

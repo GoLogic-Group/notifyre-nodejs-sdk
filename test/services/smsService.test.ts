@@ -223,13 +223,13 @@ describe('SmsService', () => {
       id: 'dea3713b-8d47-4893-9290-633d67a1b304',
       lastModifiedDateUtc: new Date(),
       recipients: [{
-        completedDateUtc: 1234,
+        completedDateUtc: new Date(),
         cost: 0.06,
         costPerPart: 0.06,
         fromNumber: 'Shared Number ()',
         id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
         messageParts: 1,
-        queuedDateUtc: 1234,
+        queuedDateUtc: new Date(),
         status: 'queued',
         toNumber: '+639167074534',
         statusMessage:'',
@@ -324,9 +324,14 @@ describe('SmsService', () => {
             recipientID: '03529753-bb63-4b6f-917d-c5a769b7442a',
             recipientNumber: '+61411111111',
             senderNumber: '+61444444444',
-            replyID: 'dea3713b-8d47-4893-9290-633d67a1b304',
-            message: 'test',
-            receivedDateUtc: 1631236195,
+            replyDetails: {
+                replyID: 'dea3713b-8d47-4893-9290-633d67a1b304',
+                createdDateUtc: 1631236195,
+                externalReplyID: 'e5c3750e-13a4-48d6-b71d-cae0ed1bf7ea',
+                provider: 'provider',
+                receivedDateUtc: 1631236195
+            },
+            createdDateUtc: 1631236195,
             contactDetails: null
           }
         ]
