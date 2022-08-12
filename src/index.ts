@@ -8,7 +8,7 @@ export class NotifyreAPI {
 
   constructor(
     public readonly apiKey: string,
-    private version: string = defaultVersion,
+    public readonly version: string = defaultVersion,
     private handleResponse = responseInterceptor,
     private handleError = errorInterceptor
   ) {
