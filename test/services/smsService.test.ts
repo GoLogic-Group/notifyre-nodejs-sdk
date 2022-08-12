@@ -129,7 +129,11 @@ describe('SmsService', () => {
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate: null,
       optOutMessage: true,
-      addUnsubscribeLink: true
+      addUnsubscribeLink: true,
+      metadata: {
+        "test": "test1"
+      },
+      callbackUrl: "https://google.com"
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -156,7 +160,11 @@ describe('SmsService', () => {
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate,
       optOutMessage: false,
-      addUnsubscribeLink: true
+      addUnsubscribeLink: true,
+      metadata: {
+        "test": "test1"
+      },
+      callbackUrl: "https://google.com"
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -177,7 +185,11 @@ describe('SmsService', () => {
       from: mockRequest.from,
       scheduledDate: dateToTimestamp(scheduledDate),
       optOutMessage: mockRequest.optOutMessage,
-      addUnsubscribeLink: mockRequest.addUnsubscribeLink
+      addUnsubscribeLink: mockRequest.addUnsubscribeLink,
+      metadata: {
+        "test": "test1"
+      },
+      callbackUrl: "https://google.com"
     });
   });
 
@@ -206,25 +218,23 @@ describe('SmsService', () => {
       accountID: 'KQNJ90KA',
       completedDateUtc: null,
       createdBy: '03529753-bb63-4b6f-917d-c5a769b7442a',
-      createdDateUtc: 1631236194,
+      createdDateUtc: new Date(),
       friendlyID: 'MTMYPLORQYTY',
       id: 'dea3713b-8d47-4893-9290-633d67a1b304',
-      lastModifiedDateUtc: 1631236195,
-      recipient: {
-        completedDateUtc: null,
+      lastModifiedDateUtc: new Date(),
+      recipients: [{
+        completedDateUtc: 1234,
         cost: 0.06,
         costPerPart: 0.06,
         fromNumber: 'Shared Number ()',
         id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
         messageParts: 1,
-        queuedDateUtc: 1631236195,
+        queuedDateUtc: 1234,
         status: 'queued',
         toNumber: '+639167074534',
         statusMessage:'',
-      },
-      status: 'queued',
-      submittedDateUtc: 1631236195,
-      totalCost: 6
+      }],
+      submittedDateUtc: new Date()
     };
 
     const httpGetSpy = jest

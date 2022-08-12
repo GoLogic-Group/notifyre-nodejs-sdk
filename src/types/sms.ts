@@ -24,6 +24,7 @@ export interface SentSms {
   status: string;
   submittedDateUtc: number | null;
   totalCost: number;
+  metadata?: object | null;
 }
 
 export interface SmsRecipient {
@@ -46,6 +47,8 @@ export interface SubmitSmsRequest {
   scheduledDate: Date | null;
   optOutMessage?: boolean;
   addUnsubscribeLink?: boolean;
+  callbackUrl?: string;
+  metadata?: object;
 }
 
 export interface SubmitSmsResponse {
@@ -59,7 +62,18 @@ export interface InvalidSmsToNumber {
   message: string;
 }
 
-export interface GetSmsResponse extends SentSms {}
+export interface GetSmsResponse {
+  id: string,
+  friendlyID: string;
+  accountID: string;
+  createdBy: string;
+  recipients: SmsRecipient[];
+  metadata?: object;
+  createdDateUtc: Date | null;
+  submittedDateUtc: Date | null;
+  completedDateUtc: Date | null;
+  lastModifiedDateUtc: Date | null;
+}
 
 export interface GetSmsRecipientRequest {
   messageID: string;
@@ -78,6 +92,7 @@ export interface GetSmsRecipientResponse {
   status: string;
   submittedDateUtc: number | null;
   totalCost: number;
+  metadata?: object | null;
 }
 
 export interface SmsMessageRecipient {

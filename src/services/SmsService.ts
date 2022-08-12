@@ -44,7 +44,9 @@ export class SmsService {
         ? dateToTimestamp(request.scheduledDate)
         : null,
       optOutMessage: request.optOutMessage || false,
-      addUnsubscribeLink: request.addUnsubscribeLink || false
+      addUnsubscribeLink: request.addUnsubscribeLink || false,
+      callbackUrl: request.callbackUrl || "",
+      metadata: request.metadata || {}
     });
   }
 

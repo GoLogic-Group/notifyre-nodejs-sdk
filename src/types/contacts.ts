@@ -20,11 +20,12 @@ export interface Contact {
   faxNumber: string;
   firstName: string;
   fullName: string;
-  groups: Omit<Group, 'contactsCount'>[];
+  groups: BaseGroup[];
   id: string;
   lastName: string;
   mobileNumber: string;
   organization: string;
+  unsubscribe: boolean;
 }
 
 export interface ContactCustomField {
@@ -89,20 +90,35 @@ export interface ListGroupsResponse {
 }
 
 export interface Group {
-  contactsCount: number;
   createdDateUtc: number;
   id: string;
   name: string;
+  totalContacts: number;
+  totalUnsubscribed: number;
+  totalSMSContacts: number;
+  totalFaxContacts: number;
 }
 
-export interface CreateGroupResponse extends Omit<Group, 'contactsCount'> {}
+export interface BaseGroup {
+  createdDateUtc: number;
+  id: string;
+  name: string;
+  }
+  
+  export interface Group extends BaseGroup {
+  totalContacts: number;
+  totalUnsubscribed: number;
+  totalSMSContacts: number;
+  totalFaxContacts: number;
+  }
+export interface CreateGroupResponse extends BaseGroup {}
 
 export interface UpdateGroupRequest {
   id: string;
   name: string;
 }
 
-export interface UpdateGroupResponse extends Omit<Group, 'contactsCount'> {}
+export interface UpdateGroupResponse extends BaseGroup {}
 
 export interface DeleteGroupsResponse {
   deleted: boolean;
