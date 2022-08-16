@@ -133,7 +133,8 @@ describe('SmsService', () => {
       metadata: {
         "test": "test1"
       },
-      callbackUrl: "https://google.com"
+      callbackUrl: "https://google.com",
+      callbackFormat: "notifyre"
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -148,7 +149,20 @@ describe('SmsService', () => {
     await expect(smsService.submitSms(mockRequest)).resolves.toEqual(
       mockSubmitSmsResponse
     );
-    expect(httpPostSpy).toHaveBeenCalledWith('/sms/send', mockRequest);
+    expect(httpPostSpy).toHaveBeenCalledWith('/sms/send', {
+      body: 'test',
+      from: '',
+      recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
+      scheduledDate: null,
+      optOutMessage: true,
+      addUnsubscribeLink: true,
+      metadata: {
+        "test": "test1"
+      },
+      callbackUrl: "https://google.com",
+      callbackFormat: "notifyre",
+      apiVersion: defaultVersion
+    });
   });
 
   it('submitSms - should be able to submit scheduled sms', async () => {
@@ -189,7 +203,9 @@ describe('SmsService', () => {
       metadata: {
         "test": "test1"
       },
-      callbackUrl: "https://google.com"
+      callbackUrl: "https://google.com",
+      callbackFormat: "notifyre",
+      apiVersion: defaultVersion
     });
   });
 
