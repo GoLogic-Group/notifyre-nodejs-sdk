@@ -14,6 +14,7 @@ import {
   SubmitSmsResponse
 } from '../types';
 import { dateToTimestamp } from '../utilities';
+import { defaultVersion } from '../config';
 
 export class SmsService {
   private basePath = '/sms';
@@ -47,7 +48,8 @@ export class SmsService {
       addUnsubscribeLink: request.addUnsubscribeLink || false,
       callbackUrl: request.callbackUrl || "",
       metadata: request.metadata || {},
-      callbackFormat: request.callbackFormat || "notifyre"
+      callbackFormat: request.callbackFormat || "notifyre",
+      apiVersion: defaultVersion
     });
   }
 
