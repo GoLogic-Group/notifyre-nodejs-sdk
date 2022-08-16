@@ -49,6 +49,7 @@ export interface SubmitSmsRequest {
   addUnsubscribeLink?: boolean;
   callbackUrl?: string;
   metadata?: object;
+  callbackFormat?: string;
 }
 
 export interface SubmitSmsResponse {

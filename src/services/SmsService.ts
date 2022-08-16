@@ -46,7 +46,8 @@ export class SmsService {
       optOutMessage: request.optOutMessage || false,
       addUnsubscribeLink: request.addUnsubscribeLink || false,
       callbackUrl: request.callbackUrl || "",
-      metadata: request.metadata || {}
+      metadata: request.metadata || {},
+      callbackFormat: request.callbackFormat || "notifyre"
     });
   }
 
