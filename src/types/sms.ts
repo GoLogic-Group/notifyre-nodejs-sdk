@@ -64,29 +64,16 @@ export interface InvalidSmsToNumber {
 }
 
 export interface GetSmsResponse {
-  id: string,
+  id: string;
   friendlyID: string;
   accountID: string;
   createdBy: string;
-  recipients: GetSmsRecipient[];
+  recipients: SmsRecipient[];
   metadata?: object;
   createdDateUtc: Date | null;
   submittedDateUtc: Date | null;
   completedDateUtc: Date | null;
   lastModifiedDateUtc: Date | null;
-}
-
-export interface GetSmsRecipient {
-  completedDateUtc: Date | null;
-  cost: number;
-  costPerPart: number;
-  fromNumber: string;
-  id: string;
-  messageParts: number;
-  queuedDateUtc: Date | null;
-  status: string;
-  toNumber: string;
-  statusMessage: string;
 }
 
 export interface GetSmsRecipientRequest {
@@ -109,17 +96,7 @@ export interface GetSmsRecipientResponse {
   metadata?: object | null;
 }
 
-export interface SmsMessageRecipient {
-  completedDateUtc: number | null;
-  cost: number;
-  costPerPart: number;
-  fromNumber: string;
-  id: string;
-  messageParts: number;
-  queuedDateUtc: number | null;
-  status: string;
-  toNumber: string;
-  statusMessage: string;
+export interface SmsMessageRecipient extends SmsRecipient {
   message: string;
 }
 
