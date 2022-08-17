@@ -49,6 +49,7 @@ export interface SubmitSmsRequest {
   addUnsubscribeLink?: boolean;
   callbackUrl?: string;
   metadata?: object;
+  callbackFormat?: string;
 }
 
 export interface SubmitSmsResponse {
@@ -67,12 +68,25 @@ export interface GetSmsResponse {
   friendlyID: string;
   accountID: string;
   createdBy: string;
-  recipients: SmsRecipient[];
+  recipients: GetSmsRecipient[];
   metadata?: object;
   createdDateUtc: Date | null;
   submittedDateUtc: Date | null;
   completedDateUtc: Date | null;
   lastModifiedDateUtc: Date | null;
+}
+
+export interface GetSmsRecipient {
+  completedDateUtc: Date | null;
+  cost: number;
+  costPerPart: number;
+  fromNumber: string;
+  id: string;
+  messageParts: number;
+  queuedDateUtc: Date | null;
+  status: string;
+  toNumber: string;
+  statusMessage: string;
 }
 
 export interface GetSmsRecipientRequest {
@@ -117,7 +131,30 @@ export interface ListSmsRepliesRequest {
 }
 
 export interface ListSmsRepliesResponse {
-  smsReplies: SmsReply[];
+  smsReplies: SmsReplies[];
+}
+
+export interface SmsReplies {
+  recipientID: string;
+  recipientNumber: string;
+  senderNumber: string;
+  replyDetails: SmsReplyDetails;
+  createdDateUtc: number;
+  contactDetails: SenderContactDetails | null;
+}
+
+export interface SenderContactDetails {
+  firstName: string;
+  lastName: string;
+  organization: string;
+}
+
+export interface SmsReplyDetails {
+  replyID: string;
+  externalReplyID: string;
+  provider: string;
+  receivedDateUtc: number;
+  createdDateUtc: number | null;
 }
 
 export interface SmsReply {
@@ -129,13 +166,6 @@ export interface SmsReply {
   receivedDateUtc: number;
   contactDetails: SenderContactDetails | null;
 }
-
-export interface SenderContactDetails {
-  firstName: string;
-  lastName: string;
-  organization: string;
-}
-
 export interface GetSmsReplyResponse extends SmsReply {}
 
 export interface ListSmsNumbersResponse {
