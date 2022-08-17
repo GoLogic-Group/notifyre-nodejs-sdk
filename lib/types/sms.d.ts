@@ -24,13 +24,13 @@ export interface SentSms {
     metadata?: object | null;
 }
 export interface SmsRecipient {
-    completedDateUtc: number | null;
+    completedDateUtc: number | Date | null;
     cost: number;
     costPerPart: number;
     fromNumber: string;
     id: string;
     messageParts: number;
-    queuedDateUtc: number | null;
+    queuedDateUtc: number | Date | null;
     status: string;
     toNumber: string;
     statusMessage: string;
