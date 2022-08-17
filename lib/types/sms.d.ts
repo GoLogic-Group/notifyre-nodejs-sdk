@@ -24,13 +24,13 @@ export interface SentSms {
     metadata?: object | null;
 }
 export interface SmsRecipient {
-    completedDateUtc: number | null;
+    completedDateUtc: number | Date | null;
     cost: number;
     costPerPart: number;
     fromNumber: string;
     id: string;
     messageParts: number;
-    queuedDateUtc: number | null;
+    queuedDateUtc: number | Date | null;
     status: string;
     toNumber: string;
     statusMessage: string;
@@ -60,24 +60,12 @@ export interface GetSmsResponse {
     friendlyID: string;
     accountID: string;
     createdBy: string;
-    recipients: GetSmsRecipient[];
+    recipients: SmsRecipient[];
     metadata?: object;
     createdDateUtc: Date | null;
     submittedDateUtc: Date | null;
     completedDateUtc: Date | null;
     lastModifiedDateUtc: Date | null;
-}
-export interface GetSmsRecipient {
-    completedDateUtc: Date | null;
-    cost: number;
-    costPerPart: number;
-    fromNumber: string;
-    id: string;
-    messageParts: number;
-    queuedDateUtc: Date | null;
-    status: string;
-    toNumber: string;
-    statusMessage: string;
 }
 export interface GetSmsRecipientRequest {
     messageID: string;
@@ -97,17 +85,7 @@ export interface GetSmsRecipientResponse {
     totalCost: number;
     metadata?: object | null;
 }
-export interface SmsMessageRecipient {
-    completedDateUtc: number | null;
-    cost: number;
-    costPerPart: number;
-    fromNumber: string;
-    id: string;
-    messageParts: number;
-    queuedDateUtc: number | null;
-    status: string;
-    toNumber: string;
-    statusMessage: string;
+export interface SmsMessageRecipient extends SmsRecipient {
     message: string;
 }
 export interface ListSmsRepliesRequest {
