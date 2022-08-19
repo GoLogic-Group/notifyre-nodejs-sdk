@@ -24,13 +24,13 @@ export interface SentSms {
     metadata?: object | null;
 }
 export interface SmsRecipient {
-    completedDateUtc: number | null;
+    completedDateUtc: number | Date | null;
     cost: number;
     costPerPart: number;
     fromNumber: string;
     id: string;
     messageParts: number;
-    queuedDateUtc: number | null;
+    queuedDateUtc: number | Date | null;
     status: string;
     toNumber: string;
     statusMessage: string;
@@ -44,6 +44,7 @@ export interface SubmitSmsRequest {
     addUnsubscribeLink?: boolean;
     callbackUrl?: string;
     metadata?: object;
+    callbackFormat?: string;
 }
 export interface SubmitSmsResponse {
     smsMessageID: string;
@@ -84,17 +85,7 @@ export interface GetSmsRecipientResponse {
     totalCost: number;
     metadata?: object | null;
 }
-export interface SmsMessageRecipient {
-    completedDateUtc: number | null;
-    cost: number;
-    costPerPart: number;
-    fromNumber: string;
-    id: string;
-    messageParts: number;
-    queuedDateUtc: number | null;
-    status: string;
-    toNumber: string;
-    statusMessage: string;
+export interface SmsMessageRecipient extends SmsRecipient {
     message: string;
 }
 export interface ListSmsRepliesRequest {
