@@ -78,8 +78,7 @@ describe('SmsService', () => {
             submittedDateUtc: 1631236195,
             totalCost: 6
           }
-        ],
-        totalCount: 5
+        ]
       }
     );
     const fromDate = new Date(2021, 9, 1);
@@ -351,8 +350,7 @@ describe('SmsService', () => {
             createdDateUtc: 1631236195,
             contactDetails: null
           }
-        ],
-        totalCount: 5
+        ]
       }
     );
     const fromDate = new Date(2021, 9, 1);
