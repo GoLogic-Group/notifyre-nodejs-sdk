@@ -95,14 +95,15 @@ export interface ListSmsRepliesRequest {
     limit?: number;
 }
 export interface ListSmsRepliesResponse {
-    smsReplies: SmsReplies[];
+    smsReplies: SmsReply[];
 }
-export interface SmsReplies {
+export interface SmsReply {
     recipientID: string;
     recipientNumber: string;
     senderNumber: string;
-    replyDetails: SmsReplyDetails;
-    createdDateUtc: number;
+    replyID: string;
+    message: string;
+    receivedDateUtc: number;
     contactDetails: SenderContactDetails | null;
 }
 export interface SenderContactDetails {
