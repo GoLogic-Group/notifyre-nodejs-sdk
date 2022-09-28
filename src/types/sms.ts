@@ -10,6 +10,7 @@ export interface ListSentSmsRequest {
 
 export interface ListSentSmsResponse {
   smsMessages: SentSms[];
+  total: number;
 }
 
 export interface SentSms {
@@ -70,10 +71,10 @@ export interface GetSmsResponse {
   createdBy: string;
   recipients: SmsRecipient[];
   metadata?: object;
-  createdDateUtc: Date | null;
-  submittedDateUtc: Date | null;
-  completedDateUtc: Date | null;
-  lastModifiedDateUtc: Date | null;
+  createdDateUtc: number | null;
+  submittedDateUtc: number | null;
+  completedDateUtc: number | null;
+  lastModifiedDateUtc: number | null;
 }
 
 export interface GetSmsRecipientRequest {
@@ -109,6 +110,7 @@ export interface ListSmsRepliesRequest {
 
 export interface ListSmsRepliesResponse {
   smsReplies: SmsReply[];
+  total: number;
 }
 
 export interface SmsReply {

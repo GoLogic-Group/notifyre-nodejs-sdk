@@ -6,9 +6,11 @@ export interface ListSentFaxesRequest {
     sort: string;
     statusType?: string;
     limit?: number;
+    skip?: number;
 }
 export interface ListSentFaxesResponse {
     faxes: SentFax[];
+    total: number;
 }
 export interface SentFax {
     id: string;
@@ -69,8 +71,13 @@ export interface ListCoverPagesResponse {
 export interface ListReceivedFaxesRequest {
     toNumber: string;
     limit?: number;
+    skip?: number;
 }
 export interface ListReceivedFaxesResponse {
+    faxes: ReceivedFax[];
+    total: number;
+}
+export interface ReceivedFax {
     id: string;
     from: string;
     to: string;
