@@ -29,8 +29,7 @@ export class SmsService {
         fromDate: dateToTimestamp(request.fromDate, false),
         toDate: dateToTimestamp(request.toDate, true),
         sort: request.sort,
-        limit: request.limit || 100,
-        skip: request.skip
+        limit: request.limit,
       }
     });
   }
@@ -74,8 +73,7 @@ export class SmsService {
         fromDate: dateToTimestamp(request.fromDate, false),
         toDate: dateToTimestamp(request.toDate, true),
         sort: request.sort,
-        limit: request.limit || 100,
-        skip: request.skip
+        limit: request.limit
       }
     });
   }

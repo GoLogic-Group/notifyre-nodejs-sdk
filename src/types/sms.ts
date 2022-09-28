@@ -6,7 +6,6 @@ export interface ListSentSmsRequest {
   sort: string;
   statusType?: string;
   limit?: number;
-  skip?: number;
 }
 
 export interface ListSentSmsResponse {
@@ -72,10 +71,10 @@ export interface GetSmsResponse {
   createdBy: string;
   recipients: SmsRecipient[];
   metadata?: object;
-  createdDateUtc: Date | null;
-  submittedDateUtc: Date | null;
-  completedDateUtc: Date | null;
-  lastModifiedDateUtc: Date | null;
+  createdDateUtc: number | null;
+  submittedDateUtc: number | null;
+  completedDateUtc: number | null;
+  lastModifiedDateUtc: number | null;
 }
 
 export interface GetSmsRecipientRequest {
@@ -107,7 +106,6 @@ export interface ListSmsRepliesRequest {
   toDate: Date;
   sort: string;
   limit?: number;
-  skip?: number;
 }
 
 export interface ListSmsRepliesResponse {

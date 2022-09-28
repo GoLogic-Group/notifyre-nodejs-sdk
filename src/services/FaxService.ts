@@ -32,7 +32,8 @@ export class FaxService {
         fromDate: dateToTimestamp(request.fromDate, false),
         toDate: dateToTimestamp(request.toDate, true),
         sort: request.sort,
-        limit: request.limit
+        limit: request.limit,
+        skip: request.skip
       }
     });
   }
@@ -146,7 +147,7 @@ export class FaxService {
 
   listReceivedFaxes(
     request: ListReceivedFaxesRequest
-  ): Promise<BaseResponse<ListReceivedFaxesResponse[]>> {
+  ): Promise<BaseResponse<ListReceivedFaxesResponse>> {
     return this.httpClient.get(`${this.basePath}/received`, {
       params: request
     });
