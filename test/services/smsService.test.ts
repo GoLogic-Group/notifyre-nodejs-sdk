@@ -78,6 +78,8 @@ describe('SmsService', () => {
             submittedDateUtc: 1631236195,
             totalCost: 6
           }
+        ],
+        total: 5
         ]
       }
     );
@@ -350,6 +352,8 @@ describe('SmsService', () => {
             createdDateUtc: 1631236195,
             contactDetails: null
           }
+        ],
+        total: 5
         ]
       }
     );

@@ -10,6 +10,7 @@ export interface ListSentSmsRequest {
 
 export interface ListSentSmsResponse {
   smsMessages: SentSms[];
+  total: number;
 }
 
 export interface SentSms {
@@ -109,6 +110,7 @@ export interface ListSmsRepliesRequest {
 
 export interface ListSmsRepliesResponse {
   smsReplies: SmsReplies[];
+  total: number;
 }
 
 export interface SmsReplies {

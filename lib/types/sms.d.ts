@@ -5,9 +5,11 @@ export interface ListSentSmsRequest {
     sort: string;
     statusType?: string;
     limit?: number;
+    skip?: number;
 }
 export interface ListSentSmsResponse {
     smsMessages: SentSms[];
+    total: number;
 }
 export interface SentSms {
     accountID: string;
@@ -93,9 +95,11 @@ export interface ListSmsRepliesRequest {
     toDate: Date;
     sort: string;
     limit?: number;
+    skip?: number;
 }
 export interface ListSmsRepliesResponse {
     smsReplies: SmsReplies[];
+    total: number;
 }
 export interface SmsReplies {
     recipientID: string;
