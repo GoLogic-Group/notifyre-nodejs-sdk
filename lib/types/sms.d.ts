@@ -36,13 +36,13 @@ export interface SmsRecipient {
     status: string;
     toNumber: string;
     statusMessage: string;
+    deliveryStatus: string;
 }
 export interface SubmitSmsRequest {
     body: string;
     recipients: Recipient[];
     from: string;
     scheduledDate: Date | null;
-    optOutMessage?: boolean;
     addUnsubscribeLink?: boolean;
     callbackUrl?: string;
     metadata?: object;

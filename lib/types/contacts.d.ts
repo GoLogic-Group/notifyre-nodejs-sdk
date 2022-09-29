@@ -46,6 +46,7 @@ export interface CreateContactResponse extends Contact {
 }
 export interface UpdateContactRequest extends Omit<CreateContactRequest, 'groupName' | 'groups'> {
     id: string;
+    unsubscribed: boolean;
 }
 export interface UpdateContactResponse extends Contact {
 }
