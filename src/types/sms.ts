@@ -48,7 +48,6 @@ export interface SubmitSmsRequest {
   recipients: Recipient[];
   from: string;
   scheduledDate: Date | null;
-  optOutMessage?: boolean;
   addUnsubscribeLink?: boolean;
   callbackUrl?: string;
   metadata?: object;

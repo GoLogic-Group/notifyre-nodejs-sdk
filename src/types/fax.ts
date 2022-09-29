@@ -6,8 +6,8 @@ export interface ListSentFaxesRequest {
   toDate: Date;
   sort: string;
   statusType?: string;
-  limit?: number;
-  skip?: number;
+  limit: number;
+  skip: number;
 }
 
 export interface ListSentFaxesResponse {
@@ -82,8 +82,8 @@ export interface ListCoverPagesResponse {
 
 export interface ListReceivedFaxesRequest {
   toNumber: string;
-  limit?: number;
-  skip?: number;
+  limit: number;
+  skip: number;
 }
 
 export interface ListReceivedFaxesResponse {

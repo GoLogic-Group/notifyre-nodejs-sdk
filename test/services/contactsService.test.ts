@@ -262,7 +262,8 @@ describe('ContactsService', () => {
       firstName: 'test',
       lastName: 'test',
       mobileNumber: '+61411111111',
-      organization: 'test'
+      organization: 'test',
+      unsubscribed: false
     };
 
     const httpPutSpy = jest
@@ -293,7 +294,8 @@ describe('ContactsService', () => {
       firstName: 'test',
       lastName: 'test',
       mobileNumber: '+61411111111',
-      organization: 'test'
+      organization: 'test',
+      unsubscribed: false
     };
     jest.spyOn(httpClient, 'put').mockRejectedValue(notifyreError);
 
