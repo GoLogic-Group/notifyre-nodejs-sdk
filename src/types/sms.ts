@@ -40,6 +40,7 @@ export interface SmsRecipient {
   status: string;
   toNumber: string;
   statusMessage: string;
+  deliveryStatus: string;
 }
 
 export interface SubmitSmsRequest {

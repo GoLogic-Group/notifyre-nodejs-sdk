@@ -1,6 +1,6 @@
 {
   "name": "notifyre-nodejs-sdk",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "The official Notifyre NodeJS SDK library for use with the Notifyre API",
   "main": "lib/index.js",
   "keywords": [
