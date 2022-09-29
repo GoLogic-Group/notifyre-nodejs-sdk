@@ -76,7 +76,8 @@ describe('FaxService', () => {
             to: '+61291989589',
             failedMessage: ''
           }
-        ]
+        ],
+        total: 10
       }
     );
     const fromDate = new Date(2021, 9, 1);
@@ -85,7 +86,8 @@ describe('FaxService', () => {
       fromDate,
       toDate,
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 0
     };
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
@@ -99,7 +101,8 @@ describe('FaxService', () => {
         fromDate: dateToTimestamp(mockRequest.fromDate, false),
         toDate: dateToTimestamp(mockRequest.toDate, true),
         sort: mockRequest.sort,
-        limit: mockRequest.limit
+        limit: mockRequest.limit,
+        skip: mockRequest.skip
       }
     });
   });
@@ -110,7 +113,8 @@ describe('FaxService', () => {
       fromDate: new Date(),
       toDate: new Date(),
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 0
     };
     jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
@@ -507,12 +511,14 @@ describe('FaxService', () => {
 
   it('listReceivedFaxes - should be able to return received faxes', async () => {
     const mockRequest: ListReceivedFaxesRequest = {
-      toNumber: ''
+      toNumber: '',
+      limit: 10,
+      skip: 0
     };
     const mockListCoverPagesResponse = new BaseResponse<
-      ListReceivedFaxesResponse[]
-    >(true, 200, 'OK', [
-      {
+      ListReceivedFaxesResponse
+    >(true, 200, 'OK', {
+      faxes: [{
         duration: 2399,
         from: '+61711111111',
         id: '85',
@@ -521,8 +527,9 @@ describe('FaxService', () => {
         status: 'completed',
         timestamp: 1637827359,
         to: '+61777777777'
-      }
-    ]);
+      }],
+      total: 50
+    });
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
@@ -538,7 +545,9 @@ describe('FaxService', () => {
 
   it('listReceivedFaxes - should be able to handle system errors', async () => {
     const mockRequest: ListReceivedFaxesRequest = {
-      toNumber: ''
+      toNumber: '',
+      limit: 10,
+      skip: 0
     };
     const notifyreError = new NotifyreError('ERROR');
 

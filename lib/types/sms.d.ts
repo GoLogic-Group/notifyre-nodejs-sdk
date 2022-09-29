@@ -5,9 +5,11 @@ export interface ListSentSmsRequest {
     sort: string;
     statusType?: string;
     limit?: number;
+    skip?: number;
 }
 export interface ListSentSmsResponse {
     smsMessages: SentSms[];
+    total: number;
 }
 export interface SentSms {
     accountID: string;
@@ -62,10 +64,10 @@ export interface GetSmsResponse {
     createdBy: string;
     recipients: SmsRecipient[];
     metadata?: object;
-    createdDateUtc: Date | null;
-    submittedDateUtc: Date | null;
-    completedDateUtc: Date | null;
-    lastModifiedDateUtc: Date | null;
+    createdDateUtc: number | null;
+    submittedDateUtc: number | null;
+    completedDateUtc: number | null;
+    lastModifiedDateUtc: number | null;
 }
 export interface GetSmsRecipientRequest {
     messageID: string;
@@ -93,16 +95,19 @@ export interface ListSmsRepliesRequest {
     toDate: Date;
     sort: string;
     limit?: number;
+    skip?: number;
 }
 export interface ListSmsRepliesResponse {
-    smsReplies: SmsReplies[];
+    smsReplies: SmsReply[];
+    total: number;
 }
-export interface SmsReplies {
+export interface SmsReply {
     recipientID: string;
     recipientNumber: string;
     senderNumber: string;
-    replyDetails: SmsReplyDetails;
-    createdDateUtc: number;
+    replyID: string;
+    message: string;
+    receivedDateUtc: number;
     contactDetails: SenderContactDetails | null;
 }
 export interface SenderContactDetails {

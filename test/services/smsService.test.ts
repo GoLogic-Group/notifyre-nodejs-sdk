@@ -78,7 +78,8 @@ describe('SmsService', () => {
             submittedDateUtc: 1631236195,
             totalCost: 6
           }
-        ]
+        ],
+        total: 5
       }
     );
     const fromDate = new Date(2021, 9, 1);
@@ -87,7 +88,8 @@ describe('SmsService', () => {
       fromDate,
       toDate,
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 1
     };
 
     const httpGetSpy = jest
@@ -102,7 +104,8 @@ describe('SmsService', () => {
         fromDate: dateToTimestamp(mockRequest.fromDate, false),
         toDate: dateToTimestamp(mockRequest.toDate, true),
         sort: mockRequest.sort,
-        limit: mockRequest.limit
+        limit: mockRequest.limit,
+        skip: mockRequest.skip
       }
     });
   });
@@ -113,7 +116,8 @@ describe('SmsService', () => {
       fromDate: new Date(),
       toDate: new Date(),
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 1
     };
     jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
@@ -234,23 +238,23 @@ describe('SmsService', () => {
       accountID: 'KQNJ90KA',
       completedDateUtc: null,
       createdBy: '03529753-bb63-4b6f-917d-c5a769b7442a',
-      createdDateUtc: new Date(),
+      createdDateUtc: 1631236194,
       friendlyID: 'MTMYPLORQYTY',
       id: 'dea3713b-8d47-4893-9290-633d67a1b304',
-      lastModifiedDateUtc: new Date(),
+      lastModifiedDateUtc: 1631236195,
       recipients: [{
-        completedDateUtc: new Date(),
+        completedDateUtc: 1631236195,
         cost: 0.06,
         costPerPart: 0.06,
         fromNumber: 'Shared Number ()',
         id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
         messageParts: 1,
-        queuedDateUtc: new Date(),
+        queuedDateUtc: 1631236195,
         status: 'queued',
         toNumber: '+639167074534',
         statusMessage:'',
       }],
-      submittedDateUtc: new Date()
+      submittedDateUtc: 1631236195
     };
 
     const httpGetSpy = jest
@@ -340,17 +344,13 @@ describe('SmsService', () => {
             recipientID: '03529753-bb63-4b6f-917d-c5a769b7442a',
             recipientNumber: '+61411111111',
             senderNumber: '+61444444444',
-            replyDetails: {
-                replyID: 'dea3713b-8d47-4893-9290-633d67a1b304',
-                createdDateUtc: 1631236195,
-                externalReplyID: 'e5c3750e-13a4-48d6-b71d-cae0ed1bf7ea',
-                provider: 'provider',
-                receivedDateUtc: 1631236195
-            },
-            createdDateUtc: 1631236195,
+            replyID: 'dea3713b-8d47-4893-9290-633d67a1b304',
+            message: 'test',
+            receivedDateUtc: 1631236195,
             contactDetails: null
           }
-        ]
+        ],
+        total: 5
       }
     );
     const fromDate = new Date(2021, 9, 1);
@@ -359,7 +359,8 @@ describe('SmsService', () => {
       fromDate,
       toDate,
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 1
     };
 
     const httpGetSpy = jest
@@ -374,7 +375,8 @@ describe('SmsService', () => {
         fromDate: dateToTimestamp(mockRequest.fromDate, false),
         toDate: dateToTimestamp(mockRequest.toDate, true),
         sort: mockRequest.sort,
-        limit: mockRequest.limit
+        limit: mockRequest.limit,
+        skip: mockRequest.skip
       }
     });
   });
@@ -385,7 +387,8 @@ describe('SmsService', () => {
       fromDate: new Date(),
       toDate: new Date(),
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 1
     };
     jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
