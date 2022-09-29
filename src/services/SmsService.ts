@@ -45,7 +45,6 @@ export class SmsService {
       scheduledDate: request.scheduledDate
         ? dateToTimestamp(request.scheduledDate)
         : null,
-      optOutMessage: request.optOutMessage || false,
       addUnsubscribeLink: request.addUnsubscribeLink || false,
       callbackUrl: request.callbackUrl || "",
       metadata: request.metadata || {},

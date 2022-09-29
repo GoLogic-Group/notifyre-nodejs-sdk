@@ -133,7 +133,6 @@ describe('SmsService', () => {
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate: null,
-      optOutMessage: true,
       addUnsubscribeLink: true,
       metadata: {
         "test": "test1"
@@ -159,7 +158,6 @@ describe('SmsService', () => {
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate: null,
-      optOutMessage: true,
       addUnsubscribeLink: true,
       metadata: {
         "test": "test1"
@@ -178,7 +176,6 @@ describe('SmsService', () => {
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate,
-      optOutMessage: false,
       addUnsubscribeLink: true,
       metadata: {
         "test": "test1"
@@ -203,7 +200,6 @@ describe('SmsService', () => {
       recipients: mockRequest.recipients,
       from: mockRequest.from,
       scheduledDate: dateToTimestamp(scheduledDate),
-      optOutMessage: mockRequest.optOutMessage,
       addUnsubscribeLink: mockRequest.addUnsubscribeLink,
       metadata: {
         "test": "test1"
@@ -220,7 +216,6 @@ describe('SmsService', () => {
       from: '+61411111111',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate: null,
-      optOutMessage: true,
       addUnsubscribeLink: true
     };
     const notifyreError = new NotifyreError('ERROR');
