@@ -80,7 +80,6 @@ describe('SmsService', () => {
           }
         ],
         total: 5
-        ]
       }
     );
     const fromDate = new Date(2021, 9, 1);
@@ -89,7 +88,8 @@ describe('SmsService', () => {
       fromDate,
       toDate,
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 1
     };
 
     const httpGetSpy = jest
@@ -104,7 +104,8 @@ describe('SmsService', () => {
         fromDate: dateToTimestamp(mockRequest.fromDate, false),
         toDate: dateToTimestamp(mockRequest.toDate, true),
         sort: mockRequest.sort,
-        limit: mockRequest.limit
+        limit: mockRequest.limit,
+        skip: mockRequest.skip
       }
     });
   });
@@ -115,7 +116,8 @@ describe('SmsService', () => {
       fromDate: new Date(),
       toDate: new Date(),
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 1
     };
     jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
@@ -349,7 +351,6 @@ describe('SmsService', () => {
           }
         ],
         total: 5
-        ]
       }
     );
     const fromDate = new Date(2021, 9, 1);
@@ -358,7 +359,8 @@ describe('SmsService', () => {
       fromDate,
       toDate,
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 1
     };
 
     const httpGetSpy = jest
@@ -373,7 +375,8 @@ describe('SmsService', () => {
         fromDate: dateToTimestamp(mockRequest.fromDate, false),
         toDate: dateToTimestamp(mockRequest.toDate, true),
         sort: mockRequest.sort,
-        limit: mockRequest.limit
+        limit: mockRequest.limit,
+        skip: mockRequest.skip
       }
     });
   });
@@ -384,7 +387,8 @@ describe('SmsService', () => {
       fromDate: new Date(),
       toDate: new Date(),
       sort: Sort.Descending,
-      limit: 10
+      limit: 10,
+      skip: 1
     };
     jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
