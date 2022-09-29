@@ -73,6 +73,7 @@ describe('SmsService', () => {
               status: 'queued',
               toNumber: '+639167074534',
               statusMessage: '',
+              deliveryStatus:'sent'
             },
             status: 'queued',
             submittedDateUtc: 1631236195,
@@ -253,6 +254,7 @@ describe('SmsService', () => {
         status: 'queued',
         toNumber: '+639167074534',
         statusMessage:'',
+        deliveryStatus:'sent'
       }],
       submittedDateUtc: 1631236195
     };
@@ -302,7 +304,8 @@ describe('SmsService', () => {
         status: 'queued',
         toNumber: '+639167074534',
         statusMessage:'',
-        message:'sample message'
+        message:'sample message',
+        deliveryStatus:'sent'
       },
       status: 'queued',
       submittedDateUtc: 1631236195,
