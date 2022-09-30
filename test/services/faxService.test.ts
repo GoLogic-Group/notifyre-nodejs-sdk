@@ -83,8 +83,8 @@ describe('FaxService', () => {
     const fromDate = new Date(2021, 9, 1);
     const toDate = new Date(2021, 12, 1);
     const mockRequest: ListSentFaxesRequest = {
-      fromDate,
-      toDate,
+      fromDate: dateToTimestamp(fromDate),
+      toDate: dateToTimestamp(toDate),
       sort: Sort.Descending,
       limit: 10,
       skip: 0
@@ -98,8 +98,8 @@ describe('FaxService', () => {
     );
     expect(httpGetSpy).toHaveBeenCalledWith('/fax/send', {
       params: {
-        fromDate: dateToTimestamp(mockRequest.fromDate, false),
-        toDate: dateToTimestamp(mockRequest.toDate, true),
+        fromDate: mockRequest.fromDate,
+        toDate: mockRequest.toDate,
         sort: mockRequest.sort,
         limit: mockRequest.limit,
         skip: mockRequest.skip
@@ -110,8 +110,8 @@ describe('FaxService', () => {
   it('listSentFaxes - should be able to handle system errors', async () => {
     const notifyreError = new NotifyreError('ERROR');
     const mockRequest: ListSentFaxesRequest = {
-      fromDate: new Date(),
-      toDate: new Date(),
+      fromDate: 1631236195,
+      toDate: 1631236195,
       sort: Sort.Descending,
       limit: 10,
       skip: 0
@@ -251,7 +251,7 @@ describe('FaxService', () => {
       sendFrom: '+61777777777',
       header: '',
       subject: '',
-      scheduledDate
+      scheduledDate: dateToTimestamp(scheduledDate)
     };
     const mockFileName = '4ca38d82-c82a-45da-8f28-62c198bec078';
     const mockUploadDocumentResponse = new BaseResponse<UploadDocumentResponse>(

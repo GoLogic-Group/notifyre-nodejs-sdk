@@ -13,7 +13,7 @@ import {
   SubmitSmsRequest,
   SubmitSmsResponse
 } from '../types';
-import { dateToTimestamp } from '../utilities';
+
 import { defaultVersion } from '../config';
 
 export class SmsService {
@@ -26,8 +26,8 @@ export class SmsService {
   ): Promise<BaseResponse<ListSentSmsResponse>> {
     return this.httpClient.get(`${this.basePath}/send`, {
       params: {
-        fromDate: dateToTimestamp(request.fromDate, false),
-        toDate: dateToTimestamp(request.toDate, true),
+        fromDate: request.fromDate,
+        toDate: request.toDate,
         sort: request.sort,
         limit: request.limit,
         skip: request.skip
@@ -42,9 +42,7 @@ export class SmsService {
       body: request.body,
       recipients: request.recipients,
       from: request.from,
-      scheduledDate: request.scheduledDate
-        ? dateToTimestamp(request.scheduledDate)
-        : null,
+      scheduledDate: request.scheduledDate,
       addUnsubscribeLink: request.addUnsubscribeLink || false,
       callbackUrl: request.callbackUrl || "",
       metadata: request.metadata || {},
@@ -70,8 +68,8 @@ export class SmsService {
   ): Promise<BaseResponse<ListSmsRepliesResponse>> {
     return this.httpClient.get(`${this.basePath}/received`, {
       params: {
-        fromDate: dateToTimestamp(request.fromDate, false),
-        toDate: dateToTimestamp(request.toDate, true),
+        fromDate: request.fromDate,
+        toDate: request.toDate,
         sort: request.sort,
         limit: request.limit,
         skip: request.skip

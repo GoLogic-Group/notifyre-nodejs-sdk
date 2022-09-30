@@ -17,7 +17,6 @@ import {
   UploadDocumentResponse,
   GetDocumentStatusResponse
 } from '../types';
-import { dateToTimestamp } from '../utilities';
 
 export class FaxService {
   private basePath = '/fax';
@@ -29,8 +28,8 @@ export class FaxService {
   ): Promise<BaseResponse<ListSentFaxesResponse>> {
     return this.httpClient.get(`${this.basePath}/send`, {
       params: {
-        fromDate: dateToTimestamp(request.fromDate, false),
-        toDate: dateToTimestamp(request.toDate, true),
+        fromDate: request.fromDate,
+        toDate: request.toDate,
         sort: request.sort,
         limit: request.limit,
         skip: request.skip
@@ -64,9 +63,7 @@ export class FaxService {
         header: request.header,
         isHighQuality: request.isHighQuality,
         recipients: request.recipients,
-        scheduledDate: request.scheduledDate
-          ? dateToTimestamp(request.scheduledDate)
-          : null,
+        scheduledDate: request.scheduledDate,
         sendFrom: request.sendFrom,
         senderID: request.sendFrom,
         subject: request.subject

@@ -86,8 +86,8 @@ describe('SmsService', () => {
     const fromDate = new Date(2021, 9, 1);
     const toDate = new Date(2021, 12, 1);
     const mockRequest: ListSentSmsRequest = {
-      fromDate,
-      toDate,
+      fromDate:dateToTimestamp(fromDate),
+      toDate:dateToTimestamp(toDate),
       sort: Sort.Descending,
       limit: 10,
       skip: 1
@@ -102,8 +102,8 @@ describe('SmsService', () => {
     );
     expect(httpGetSpy).toHaveBeenCalledWith('/sms/send', {
       params: {
-        fromDate: dateToTimestamp(mockRequest.fromDate, false),
-        toDate: dateToTimestamp(mockRequest.toDate, true),
+        fromDate: mockRequest.fromDate,
+        toDate: mockRequest.toDate,
         sort: mockRequest.sort,
         limit: mockRequest.limit,
         skip: mockRequest.skip
@@ -114,8 +114,8 @@ describe('SmsService', () => {
   it('listSentSms - should be able to handle system errors', async () => {
     const notifyreError = new NotifyreError('ERROR');
     const mockRequest: ListSentSmsRequest = {
-      fromDate: new Date(),
-      toDate: new Date(),
+      fromDate: 1631236194,
+      toDate: 1631236194,
       sort: Sort.Descending,
       limit: 10,
       skip: 1
@@ -175,7 +175,7 @@ describe('SmsService', () => {
       body: 'test',
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
-      scheduledDate,
+      scheduledDate: dateToTimestamp(scheduledDate),
       addUnsubscribeLink: true,
       metadata: {
         "test": "test1"
@@ -354,8 +354,8 @@ describe('SmsService', () => {
     const fromDate = new Date(2021, 9, 1);
     const toDate = new Date(2021, 12, 1);
     const mockRequest: ListSmsRepliesRequest = {
-      fromDate,
-      toDate,
+      fromDate: dateToTimestamp(fromDate),
+      toDate: dateToTimestamp(toDate),
       sort: Sort.Descending,
       limit: 10,
       skip: 1
@@ -370,8 +370,8 @@ describe('SmsService', () => {
     );
     expect(httpGetSpy).toHaveBeenCalledWith('/sms/received', {
       params: {
-        fromDate: dateToTimestamp(mockRequest.fromDate, false),
-        toDate: dateToTimestamp(mockRequest.toDate, true),
+        fromDate: mockRequest.fromDate,
+        toDate: mockRequest.toDate,
         sort: mockRequest.sort,
         limit: mockRequest.limit,
         skip: mockRequest.skip
@@ -382,8 +382,8 @@ describe('SmsService', () => {
   it('listSmsReplies - should be able to handle system errors', async () => {
     const notifyreError = new NotifyreError('ERROR');
     const mockRequest: ListSmsRepliesRequest = {
-      fromDate: new Date(),
-      toDate: new Date(),
+      fromDate: 1631236194,
+      toDate: 1631236194,
       sort: Sort.Descending,
       limit: 10,
       skip: 1

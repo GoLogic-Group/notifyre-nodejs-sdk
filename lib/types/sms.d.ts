@@ -1,7 +1,7 @@
 import { Recipient } from '.';
 export interface ListSentSmsRequest {
-    fromDate: Date;
-    toDate: Date;
+    fromDate: number | null;
+    toDate: number | null;
     sort: string;
     statusType?: string;
     limit?: number;
@@ -42,7 +42,7 @@ export interface SubmitSmsRequest {
     body: string;
     recipients: Recipient[];
     from: string;
-    scheduledDate: Date | null;
+    scheduledDate: number | null;
     addUnsubscribeLink?: boolean;
     callbackUrl?: string;
     metadata?: object;
@@ -91,8 +91,8 @@ export interface SmsMessageRecipient extends SmsRecipient {
     message: string;
 }
 export interface ListSmsRepliesRequest {
-    fromDate: Date;
-    toDate: Date;
+    fromDate: number | null;
+    toDate: number | null;
     sort: string;
     limit?: number;
     skip?: number;
