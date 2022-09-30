@@ -37,18 +37,17 @@ export declare enum Sort {
     Descending = "desc"
 }
 export declare enum ListSentFaxesRequestStatusTypes {
-    Completed = "completed",
-    Draft = "draft",
-    Failed = "failed",
-    Warning = "warning",
-    Queued = "queued"
+    Accepted = "accepted",
+    Queued = "queued",
+    InProgress = "in_progress",
+    Successful = "successful",
+    Failed = "failed"
 }
 export declare enum ListSmsRequestStatusTypes {
-    Completed = "completed",
-    Draft = "draft",
-    Failed = "failed",
-    Warning = "warning",
-    Queued = "queued"
+    Submitted = "submitted",
+    Processing = "processing",
+    Sent = "sent",
+    Failed = "failed"
 }
 export declare enum EventType {
     FaxReceived = "fax_received",

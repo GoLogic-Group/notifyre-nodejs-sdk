@@ -1,8 +1,8 @@
 import { Recipient } from '.';
 import { DocumentStatus } from '../constants';
 export interface ListSentFaxesRequest {
-    fromDate: Date;
-    toDate: Date;
+    fromDate: number;
+    toDate: number;
     sort: string;
     statusType?: string;
     limit: number;
@@ -36,7 +36,7 @@ export interface SubmitFaxRequest {
     documents: FaxDocument[];
     header: string;
     subject: string;
-    scheduledDate: Date | null;
+    scheduledDate: number | null;
 }
 export interface SubmitFaxResponse {
     faxID: string;

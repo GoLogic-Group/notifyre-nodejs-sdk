@@ -44,19 +44,18 @@ export enum Sort {
 }
 
 export enum ListSentFaxesRequestStatusTypes {
-  Completed = 'completed',
-  Draft = 'draft',
+  Accepted = 'accepted',
+  Queued = 'queued',
+  InProgress = 'in_progress',
+  Successful = 'successful',
   Failed = 'failed',
-  Warning = 'warning',
-  Queued = 'queued'
 }
 
 export enum ListSmsRequestStatusTypes {
-  Completed = 'completed',
-  Draft = 'draft',
+  Submitted = 'submitted',
+  Processing = 'processing',
+  Sent = 'sent',
   Failed = 'failed',
-  Warning = 'warning',
-  Queued = 'queued'
 }
 
 export enum EventType {
