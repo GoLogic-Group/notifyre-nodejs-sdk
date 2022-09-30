@@ -30,13 +30,13 @@ export interface SentSms {
 }
 
 export interface SmsRecipient {
-  completedDateUtc: number | Date | null;
+  completedDateUtc: number | null;
   cost: number;
   costPerPart: number;
   fromNumber: string;
   id: string;
   messageParts: number;
-  queuedDateUtc: number | Date | null;
+  queuedDateUtc: number | null;
   status: string;
   toNumber: string;
   statusMessage: string;
