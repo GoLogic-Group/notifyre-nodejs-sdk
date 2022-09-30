@@ -2,20 +2,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { createHmac } from 'crypto';
 import { NotifyreError } from '.';
 
-export const dateToTimestamp = (date: Date, isMax?: boolean): number => {
-  let ms = 0;
-
-  if (isMax === undefined) {
-    ms = date.getTime();
-  } else if (isMax) {
-    ms = date.setUTCHours(23, 59, 59, 999);
-  } else {
-    ms = date.setUTCHours(0, 0, 0, 0);
-  }
-
-  return Math.floor(ms / 1000);
-};
-
 export const generateSignature = (message: string, key: string): string => {
   return createHmac('sha256', key).update(message).digest('hex');
 };
@@ -48,7 +34,9 @@ export const verifySignature = (
     throw new NotifyreError('Empty signature');
   }
 
-  if (dateToTimestamp(new Date()) - +timestamp > timeToleranceSec) {
+  const timestamNow = new Date().getTime() / 1000;
+
+  if (timestamNow - +timestamp > timeToleranceSec) {
     throw new NotifyreError('Signature timestamp expired');
   }
 

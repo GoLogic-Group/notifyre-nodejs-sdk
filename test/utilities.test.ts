@@ -1,45 +1,11 @@
 import { NotifyreError } from '../src';
 import {
-  dateToTimestamp,
   errorInterceptor,
   responseInterceptor,
   verifySignature
 } from '../src/utilities';
 
 describe('Utilities', () => {
-  it('dateToTimestamp - should be able to return unix timestamp', () => {
-    const inputDate = new Date();
-    const timestamp = dateToTimestamp(inputDate);
-    const timestampDate = new Date(timestamp * 1000);
-
-    expect(timestamp).toBeGreaterThanOrEqual(0);
-    expect(timestampDate.getUTCMonth()).toEqual(inputDate.getUTCMonth());
-    expect(timestampDate.getUTCFullYear()).toEqual(inputDate.getUTCFullYear());
-    expect(timestampDate.getUTCDate()).toEqual(inputDate.getUTCDate());
-  });
-
-  it('dateToTimestamp - should be able to return unix timestamp with minumum time', () => {
-    const inputDate = new Date();
-    const timestamp = dateToTimestamp(inputDate, false);
-    const timestampDate = new Date(timestamp * 1000);
-
-    expect(timestamp).toBeGreaterThanOrEqual(0);
-    expect(timestampDate.getUTCHours()).toEqual(0);
-    expect(timestampDate.getUTCMinutes()).toEqual(0);
-    expect(timestampDate.getUTCSeconds()).toEqual(0);
-  });
-
-  it('dateToTimestamp - should be able to return unix timestamp with maximum time', () => {
-    const inputDate = new Date();
-    const timestamp = dateToTimestamp(inputDate, true);
-    const timestampDate = new Date(timestamp * 1000);
-
-    expect(timestamp).toBeGreaterThanOrEqual(0);
-    expect(timestampDate.getUTCHours()).toEqual(23);
-    expect(timestampDate.getUTCMinutes()).toEqual(59);
-    expect(timestampDate.getUTCSeconds()).toEqual(59);
-  });
-
   it('verifySignature - should be able to handle missing timestamp in signature header', () => {
     const signatureHeader =
       'v=30894d12c909722c603c3e301e0772ee20557d5359f39326ba702c817ca4703e';

@@ -23,11 +23,7 @@ import {
   SubmitFaxResponse,
   UploadDocumentResponse
 } from '../../src/types';
-import {
-  dateToTimestamp,
-  errorInterceptor,
-  responseInterceptor
-} from '../../src/utilities';
+import { errorInterceptor, responseInterceptor } from '../../src/utilities';
 
 describe('FaxService', () => {
   let httpClient: AxiosInstance;
@@ -80,11 +76,11 @@ describe('FaxService', () => {
         total: 10
       }
     );
-    const fromDate = new Date(2021, 9, 1);
-    const toDate = new Date(2021, 12, 1);
+    const fromDate = new Date(2021, 9, 1).getTime() / 1000;
+    const toDate = new Date(2021, 12, 1).getTime() / 1000;
     const mockRequest: ListSentFaxesRequest = {
-      fromDate: dateToTimestamp(fromDate),
-      toDate: dateToTimestamp(toDate),
+      fromDate,
+      toDate,
       sort: Sort.Descending,
       limit: 10,
       skip: 0
@@ -230,8 +226,7 @@ describe('FaxService', () => {
   }, 30000);
 
   it('submitFax - should be able to submit scheduled fax', async () => {
-    const scheduledDate = new Date();
-    scheduledDate.setFullYear(scheduledDate.getFullYear() + 1);
+    const scheduledDate = new Date().getTime() / 1000;
     const mockRequest: SubmitFaxRequest = {
       templateName: '',
       documents: [
@@ -251,7 +246,7 @@ describe('FaxService', () => {
       sendFrom: '+61777777777',
       header: '',
       subject: '',
-      scheduledDate: dateToTimestamp(scheduledDate)
+      scheduledDate
     };
     const mockFileName = '4ca38d82-c82a-45da-8f28-62c198bec078';
     const mockUploadDocumentResponse = new BaseResponse<UploadDocumentResponse>(
@@ -309,7 +304,7 @@ describe('FaxService', () => {
         header: mockRequest.header,
         isHighQuality: mockRequest.isHighQuality,
         recipients: mockRequest.recipients,
-        scheduledDate: dateToTimestamp(scheduledDate),
+        scheduledDate,
         sendFrom: mockRequest.sendFrom,
         senderID: mockRequest.sendFrom,
         subject: mockRequest.subject
@@ -515,21 +510,22 @@ describe('FaxService', () => {
       limit: 10,
       skip: 0
     };
-    const mockListCoverPagesResponse = new BaseResponse<
-      ListReceivedFaxesResponse
-    >(true, 200, 'OK', {
-      faxes: [{
-        duration: 2399,
-        from: '+61711111111',
-        id: '85',
-        pages: 1,
-        read: false,
-        status: 'completed',
-        timestamp: 1637827359,
-        to: '+61777777777'
-      }],
-      total: 50
-    });
+    const mockListCoverPagesResponse =
+      new BaseResponse<ListReceivedFaxesResponse>(true, 200, 'OK', {
+        faxes: [
+          {
+            duration: 2399,
+            from: '+61711111111',
+            id: '85',
+            pages: 1,
+            read: false,
+            status: 'completed',
+            timestamp: 1637827359,
+            to: '+61777777777'
+          }
+        ],
+        total: 50
+      });
 
     const httpGetSpy = jest
       .spyOn(httpClient, 'get')
@@ -562,8 +558,8 @@ describe('FaxService', () => {
     const mockRequest = '85';
     const mockDownloadSentFaxResponse =
       new BaseResponse<DownloadReceivedFaxResponse>(true, 200, 'OK', {
-          tiffBase64: 'dGVzdA==',
-          type: 'application/pdf'
+        tiffBase64: 'dGVzdA==',
+        type: 'application/pdf'
       });
 
     const httpGetSpy = jest
