@@ -16,11 +16,7 @@ import {
   SubmitSmsRequest,
   SubmitSmsResponse
 } from '../../src/types';
-import {
-  dateToTimestamp,
-  errorInterceptor,
-  responseInterceptor
-} from '../../src/utilities';
+import { errorInterceptor, responseInterceptor } from '../../src/utilities';
 
 describe('SmsService', () => {
   let httpClient: AxiosInstance;
@@ -73,7 +69,7 @@ describe('SmsService', () => {
               status: 'queued',
               toNumber: '+639167074534',
               statusMessage: '',
-              deliveryStatus:'sent'
+              deliveryStatus: 'sent'
             },
             status: 'queued',
             submittedDateUtc: 1631236195,
@@ -83,11 +79,11 @@ describe('SmsService', () => {
         total: 5
       }
     );
-    const fromDate = new Date(2021, 9, 1);
-    const toDate = new Date(2021, 12, 1);
+    const fromDate = new Date(2021, 9, 1).getTime() / 1000;
+    const toDate = new Date(2021, 12, 1).getTime() / 1000;
     const mockRequest: ListSentSmsRequest = {
-      fromDate:dateToTimestamp(fromDate),
-      toDate:dateToTimestamp(toDate),
+      fromDate,
+      toDate,
       sort: Sort.Descending,
       limit: 10,
       skip: 1
@@ -133,12 +129,11 @@ describe('SmsService', () => {
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate: null,
-      addUnsubscribeLink: true,
       metadata: {
-        "test": "test1"
+        test: 'test1'
       },
-      callbackUrl: "https://google.com",
-      callbackFormat: "notifyre"
+      callbackUrl: 'https://google.com',
+      callbackFormat: 'notifyre'
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -158,29 +153,28 @@ describe('SmsService', () => {
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate: null,
-      addUnsubscribeLink: true,
+      addUnsubscribeLink: false,
       metadata: {
-        "test": "test1"
+        test: 'test1'
       },
-      callbackUrl: "https://google.com",
-      callbackFormat: "notifyre",
+      callbackUrl: 'https://google.com',
+      callbackFormat: 'notifyre',
       apiVersion: defaultVersion
     });
   });
 
   it('submitSms - should be able to submit scheduled sms', async () => {
-    const scheduledDate = new Date();
-    scheduledDate.setFullYear(scheduledDate.getFullYear() + 1);
+    const scheduledDate = new Date().getTime() / 1000;
     const mockRequest: SubmitSmsRequest = {
       body: 'test',
       from: '',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
-      scheduledDate: dateToTimestamp(scheduledDate),
+      scheduledDate,
       addUnsubscribeLink: true,
       metadata: {
-        "test": "test1"
+        test: 'test1'
       },
-      callbackUrl: "https://google.com"
+      callbackUrl: 'https://google.com'
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -199,13 +193,13 @@ describe('SmsService', () => {
       body: mockRequest.body,
       recipients: mockRequest.recipients,
       from: mockRequest.from,
-      scheduledDate: dateToTimestamp(scheduledDate),
+      scheduledDate,
       addUnsubscribeLink: mockRequest.addUnsubscribeLink,
       metadata: {
-        "test": "test1"
+        test: 'test1'
       },
-      callbackUrl: "https://google.com",
-      callbackFormat: "notifyre",
+      callbackUrl: 'https://google.com',
+      callbackFormat: 'notifyre',
       apiVersion: defaultVersion
     });
   });
@@ -229,7 +223,7 @@ describe('SmsService', () => {
 
   it('getSms - should be able to return sent sms details', async () => {
     const mockRequest: string = '0a5c9565-bba2-4406-96df-d9ffd85b2830';
-    
+
     const mockGetSmsResponse: GetSmsResponse = {
       accountID: 'KQNJ90KA',
       completedDateUtc: null,
@@ -238,19 +232,21 @@ describe('SmsService', () => {
       friendlyID: 'MTMYPLORQYTY',
       id: 'dea3713b-8d47-4893-9290-633d67a1b304',
       lastModifiedDateUtc: 1631236195,
-      recipients: [{
-        completedDateUtc: 1631236195,
-        cost: 0.06,
-        costPerPart: 0.06,
-        fromNumber: 'Shared Number ()',
-        id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
-        messageParts: 1,
-        queuedDateUtc: 1631236195,
-        status: 'queued',
-        toNumber: '+639167074534',
-        statusMessage:'',
-        deliveryStatus:'sent'
-      }],
+      recipients: [
+        {
+          completedDateUtc: 1631236195,
+          cost: 0.06,
+          costPerPart: 0.06,
+          fromNumber: 'Shared Number ()',
+          id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
+          messageParts: 1,
+          queuedDateUtc: 1631236195,
+          status: 'queued',
+          toNumber: '+639167074534',
+          statusMessage: '',
+          deliveryStatus: 'sent'
+        }
+      ],
       submittedDateUtc: 1631236195
     };
 
@@ -261,9 +257,7 @@ describe('SmsService', () => {
     await expect(smsService.getSms(mockRequest)).resolves.toEqual(
       mockGetSmsResponse
     );
-    expect(httpGetSpy).toHaveBeenCalledWith(
-      `/sms/send/${mockRequest}`
-    );
+    expect(httpGetSpy).toHaveBeenCalledWith(`/sms/send/${mockRequest}`);
   });
 
   it('getSms - should be able to handle system errors', async () => {
@@ -298,9 +292,9 @@ describe('SmsService', () => {
         queuedDateUtc: 1631236195,
         status: 'queued',
         toNumber: '+639167074534',
-        statusMessage:'',
-        message:'sample message',
-        deliveryStatus:'sent'
+        statusMessage: '',
+        message: 'sample message',
+        deliveryStatus: 'sent'
       },
       status: 'queued',
       submittedDateUtc: 1631236195,
@@ -311,9 +305,9 @@ describe('SmsService', () => {
       .spyOn(httpClient, 'get')
       .mockResolvedValue(mockGetSmsResponse);
 
-    await expect(smsService.getSmsRecipientMessage(mockRequest)).resolves.toEqual(
-      mockGetSmsResponse
-    );
+    await expect(
+      smsService.getSmsRecipientMessage(mockRequest)
+    ).resolves.toEqual(mockGetSmsResponse);
     expect(httpGetSpy).toHaveBeenCalledWith(
       `/sms/send/${mockRequest.messageID}/recipients/${mockRequest.recipientID}`
     );
@@ -328,7 +322,9 @@ describe('SmsService', () => {
 
     jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
-    await expect(smsService.getSmsRecipientMessage(mockRequest)).rejects.toEqual(notifyreError);
+    await expect(
+      smsService.getSmsRecipientMessage(mockRequest)
+    ).rejects.toEqual(notifyreError);
   });
 
   it('listSmsReplies - should be able to return list of received sms', async () => {
@@ -351,11 +347,11 @@ describe('SmsService', () => {
         total: 5
       }
     );
-    const fromDate = new Date(2021, 9, 1);
-    const toDate = new Date(2021, 12, 1);
+    const fromDate = new Date(2021, 9, 1).getTime() / 1000;
+    const toDate = new Date(2021, 12, 1).getTime() / 1000;
     const mockRequest: ListSmsRepliesRequest = {
-      fromDate: dateToTimestamp(fromDate),
-      toDate: dateToTimestamp(toDate),
+      fromDate,
+      toDate,
       sort: Sort.Descending,
       limit: 10,
       skip: 1
