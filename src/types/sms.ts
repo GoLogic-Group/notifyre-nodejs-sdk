@@ -5,6 +5,7 @@ export interface ListSentSmsRequest {
   toDate: number | null;
   sort: string;
   statusType?: string;
+  search?: string;
   limit?: number;
   skip?: number;
 }
@@ -35,6 +36,7 @@ export interface SmsRecipient {
   costPerPart: number;
   fromNumber: string;
   id: string;
+  friendlyID: string;
   messageParts: number;
   queuedDateUtc: number | null;
   status: string;
@@ -105,6 +107,10 @@ export interface SmsMessageRecipient extends SmsRecipient {
 export interface ListSmsRepliesRequest {
   fromDate: number | null;
   toDate: number | null;
+  toNumber?: string;
+  fromNumber?: string;
+  recipientID?: string;
+  includeReplyContent?: boolean
   sort: string;
   limit?: number;
   skip?: number;
@@ -117,6 +123,7 @@ export interface ListSmsRepliesResponse {
 
 export interface SmsReply {
   recipientID: string;
+  friendlyID: string;
   recipientNumber: string;
   senderNumber: string;
   replyID: string;
