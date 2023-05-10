@@ -6,6 +6,7 @@ export interface ListSentFaxesRequest {
   toDate: number;
   sort: string;
   statusType?: string;
+  search?: string;
   limit: number;
   skip: number;
 }

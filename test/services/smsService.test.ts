@@ -64,6 +64,7 @@ describe('SmsService', () => {
               costPerPart: 0.06,
               fromNumber: 'Shared Number ()',
               id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
+              friendlyID : "TGR0L77T3QDR",
               messageParts: 1,
               queuedDateUtc: 1631236195,
               status: 'queued',
@@ -239,6 +240,7 @@ describe('SmsService', () => {
           costPerPart: 0.06,
           fromNumber: 'Shared Number ()',
           id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
+          friendlyID : 'TGR0L77T3QDR',
           messageParts: 1,
           queuedDateUtc: 1631236195,
           status: 'queued',
@@ -288,6 +290,7 @@ describe('SmsService', () => {
         costPerPart: 0.06,
         fromNumber: 'Shared Number ()',
         id: 'fb4bbcd8-e172-4fc1-a144-3c80928fd72e',
+        friendlyID: 'TGR0L77T3QDR',
         messageParts: 1,
         queuedDateUtc: 1631236195,
         status: 'queued',
@@ -336,6 +339,7 @@ describe('SmsService', () => {
         smsReplies: [
           {
             recipientID: '03529753-bb63-4b6f-917d-c5a769b7442a',
+            friendlyID: 'TGR0L77T3QDR',
             recipientNumber: '+61411111111',
             senderNumber: '+61444444444',
             replyID: 'dea3713b-8d47-4893-9290-633d67a1b304',
@@ -403,7 +407,8 @@ describe('SmsService', () => {
         recipientID: 'bd7906a5-f161-4be0-ad30-634b7238df32',
         recipientNumber: '+61411111111',
         replyID: '80f7e81a-0769-44fb-a0f7-0bd778655914',
-        senderNumber: '+61444444444'
+        senderNumber: '+61444444444',
+        friendlyID: 'TGR0L77T3QDR'
       }
     );
     const mockRequest: string = 'a3a1f58f-c54b-4c49-a9ae-0e0f8f11550a';
