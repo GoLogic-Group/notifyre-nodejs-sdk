@@ -81,7 +81,8 @@ describe('ContactsService', () => {
             lastName: 'fax',
             mobileNumber: '+61411111111',
             organization: '',
-            unsubscribe: false
+            unsubscribe: false,
+            unsubscribeKey: 'qwerty'
           }
         ],
         total: 1
@@ -159,7 +160,8 @@ describe('ContactsService', () => {
         lastName: 'fax',
         mobileNumber: '+61411111111',
         organization: '',
-        unsubscribe: false
+        unsubscribe: false,
+        unsubscribeKey: 'qwerty'
       }
     );
     const mockRequest: CreateContactRequest = {
@@ -246,7 +248,8 @@ describe('ContactsService', () => {
         lastName: 'fax',
         mobileNumber: '+61411111111',
         organization: '',
-        unsubscribe: false
+        unsubscribe: false,
+        unsubscribeKey: 'qwerty'
       }
     );
     const mockRequest: UpdateContactRequest = {
@@ -366,7 +369,8 @@ describe('ContactsService', () => {
         lastName: 'fax',
         mobileNumber: '+61411111111',
         organization: '',
-        unsubscribe: false
+        unsubscribe: false,
+        unsubscribeKey: 'qwerty'
       }
     );
     const mockRequest: string = 'd1c42731-f641-4a1c-be20-89d484708ca5';

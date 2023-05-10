@@ -27,6 +27,7 @@ export interface Contact {
   mobileNumber: string;
   organization: string;
   unsubscribe: boolean;
+  unsubscribeKey: string;
 }
 
 export interface ContactCustomField {
