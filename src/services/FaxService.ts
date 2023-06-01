@@ -15,7 +15,8 @@ import {
   SubmitFaxRequest,
   SubmitFaxResponse,
   UploadDocumentResponse,
-  GetDocumentStatusResponse
+  GetDocumentStatusResponse,
+  ListFaxPricesResponse
 } from '../types';
 
 export class FaxService {
@@ -32,7 +33,8 @@ export class FaxService {
         toDate: request.toDate,
         sort: request.sort,
         limit: request.limit,
-        skip: request.skip
+        skip: request.skip,
+        statusType: request.statusType
       }
     });
   }
@@ -158,5 +160,9 @@ export class FaxService {
 
   listFaxNumbers(): Promise<BaseResponse<ListFaxNumbersResponse>> {
     return this.httpClient.get(`${this.basePath}/numbers`);
+  }
+
+  listPrices(): Promise<BaseResponse<ListFaxPricesResponse>> {
+    return this.httpClient.get(`${this.basePath}/send/prices`);
   }
 }

@@ -45,10 +45,10 @@ export enum Sort {
 
 export enum ListSentFaxesRequestStatusTypes {
   Accepted = 'accepted',
-  Queued = 'queued',
-  InProgress = 'in_progress',
   Successful = 'successful',
   Failed = 'failed',
+  InProgress = 'in_progress',
+  Queued = 'queued'
 }
 
 export enum ListSmsRequestStatusTypes {

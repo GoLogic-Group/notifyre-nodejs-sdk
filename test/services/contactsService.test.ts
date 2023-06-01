@@ -21,7 +21,8 @@ import {
   UpdateContactRequest,
   UpdateContactResponse,
   UpdateGroupRequest,
-  UpdateGroupResponse
+  UpdateGroupResponse,
+  DeleteGroupsRequest
 } from '../../src/types';
 import { errorInterceptor, responseInterceptor } from '../../src/utilities';
 
@@ -81,7 +82,7 @@ describe('ContactsService', () => {
             lastName: 'fax',
             mobileNumber: '+61411111111',
             organization: '',
-            unsubscribe: false,
+            unsubscribed: false,
             unsubscribeKey: 'qwerty'
           }
         ],
@@ -160,7 +161,7 @@ describe('ContactsService', () => {
         lastName: 'fax',
         mobileNumber: '+61411111111',
         organization: '',
-        unsubscribe: false,
+        unsubscribed: false,
         unsubscribeKey: 'qwerty'
       }
     );
@@ -248,7 +249,7 @@ describe('ContactsService', () => {
         lastName: 'fax',
         mobileNumber: '+61411111111',
         organization: '',
-        unsubscribe: false,
+        unsubscribed: false,
         unsubscribeKey: 'qwerty'
       }
     );
@@ -369,7 +370,7 @@ describe('ContactsService', () => {
         lastName: 'fax',
         mobileNumber: '+61411111111',
         organization: '',
-        unsubscribe: false,
+        unsubscribed: false,
         unsubscribeKey: 'qwerty'
       }
     );
@@ -481,9 +482,6 @@ describe('ContactsService', () => {
             id: '1be1bffe-eba1-4693-91de-b3ca275179f9',
             name: 'test',
             totalContacts: 1,
-            totalUnsubscribed: 0,
-            totalSMSContacts: 1,
-            totalFaxContacts: 1,
           }
         ]
       }
@@ -606,8 +604,10 @@ describe('ContactsService', () => {
         deleted: true
       }
     );
-    const mockRequest: string[] = ['72a6d4c5-f30d-412b-bc96-97074fef4b5d'];
-
+    const mockRequest: DeleteGroupsRequest = {
+      groups: ['72a6d4c5-f30d-412b-bc96-97074fef4b5d'],
+      includeContacts: true
+    };
     const httpDeleteSpy = jest
       .spyOn(httpClient, 'delete')
       .mockResolvedValue(mockDeleteGroupsResponse);
@@ -616,13 +616,16 @@ describe('ContactsService', () => {
       mockDeleteGroupsResponse
     );
     expect(httpDeleteSpy).toHaveBeenCalledWith(`/addressbook/groups`, {
-      data: { groups: mockRequest }
+      data: mockRequest
     });
   });
 
   it('deleteGroups - should be able to handle system errors', async () => {
     const notifyreError = new NotifyreError('ERROR');
-    const mockRequest: string[] = ['72a6d4c5-f30d-412b-bc96-97074fef4b5d'];
+    const mockRequest: DeleteGroupsRequest = {
+      groups: ['72a6d4c5-f30d-412b-bc96-97074fef4b5d'],
+      includeContacts: true
+    };
     jest.spyOn(httpClient, 'delete').mockRejectedValue(notifyreError);
 
     await expect(contactsService.deleteGroups(mockRequest)).rejects.toEqual(
