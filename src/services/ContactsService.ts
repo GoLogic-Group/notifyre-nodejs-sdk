@@ -6,6 +6,7 @@ import {
   CreateContactResponse,
   CreateGroupResponse,
   deleteContactsResponse,
+  DeleteGroupsRequest,
   DeleteGroupsResponse,
   GetContactResponse,
   ListContactsRequest,
@@ -95,11 +96,11 @@ export class ContactsService {
     });
   }
 
-  deleteGroups(groups: string[]): Promise<BaseResponse<DeleteGroupsResponse>> {
+  deleteGroups(
+    request: DeleteGroupsRequest
+    ): Promise<BaseResponse<DeleteGroupsResponse>> {
     return this.httpClient.delete(`${this.basePath}/groups`, {
-      data: {
-        groups
-      }
+      data: request
     });
   }
 }

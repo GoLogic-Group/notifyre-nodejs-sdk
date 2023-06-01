@@ -11,7 +11,8 @@ import {
   ListSentSmsRequest,
   ListSentSmsResponse,
   SubmitSmsRequest,
-  SubmitSmsResponse
+  SubmitSmsResponse,
+  ListSmsPricesResponse
 } from '../types';
 
 import { defaultVersion } from '../config';
@@ -83,5 +84,9 @@ export class SmsService {
 
   listSmsNumbers(): Promise<BaseResponse<ListSmsNumbersResponse>> {
     return this.httpClient.get(`${this.basePath}/numbers`);
+  }
+
+  listPrices(): Promise<BaseResponse<ListSmsPricesResponse>> {
+    return this.httpClient.get(`${this.basePath}/send/prices`);
   }
 }

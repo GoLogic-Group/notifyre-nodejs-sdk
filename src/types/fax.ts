@@ -120,3 +120,11 @@ export interface FaxNumber {
   e164: string;
   status: string;
 }
+
+export interface ListFaxPricesResponse {
+  countryCode: string;
+  countryName: string;
+  prefix: string;
+  price: number;
+  currency: string;
+}

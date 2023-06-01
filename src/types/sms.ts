@@ -3,9 +3,11 @@ import { Recipient } from '.';
 export interface ListSentSmsRequest {
   fromDate: number | null;
   toDate: number | null;
-  sort: string;
+  toNumber?: string;
+  fromNumber?: string;
   statusType?: string;
   search?: string;
+  sort?: string;
   limit?: number;
   skip?: number;
 }
@@ -148,6 +150,7 @@ export interface SmsReplyDetails {
 
 export interface SmsReply {
   recipientID: string;
+  friendlyID: string;
   recipientNumber: string;
   senderNumber: string;
   replyID: string;
@@ -182,4 +185,12 @@ export interface SmsSenderID {
   status: string;
   createdDateUtc: number;
   lastModifiedDateUtc: number | null;
+}
+
+export interface ListSmsPricesResponse {
+  countryCode: string;
+  countryName: string;
+  prefix: string;
+  price: number;
+  currency: string;
 }

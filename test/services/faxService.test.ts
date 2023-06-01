@@ -614,4 +614,35 @@ describe('FaxService', () => {
 
     await expect(faxService.listFaxNumbers()).rejects.toEqual(notifyreError);
   });
+
+  it('listPrices - should be able to return prices', async () => {
+    const mockListPricesResponse = {
+      prices: [
+        {
+          countryCode: "AU",
+          countryName: "Australia",
+          prefix: '61',
+          price: 1,
+          currency: 'AUD',
+        }
+      ]
+    };
+
+    const httpGetSpy = jest
+      .spyOn(httpClient, 'get')
+      .mockResolvedValue(mockListPricesResponse);
+
+    await expect(faxService.listPrices()).resolves.toEqual(
+      mockListPricesResponse
+    );
+    expect(httpGetSpy).toHaveBeenCalledWith('/fax/send/prices');
+  });
+
+  it('listPrices - should be able to handle system errors', async () => {
+    const notifyreError = new NotifyreError('ERROR');
+
+    jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
+
+    await expect(faxService.listPrices()).rejects.toEqual(notifyreError);
+  });
 });
