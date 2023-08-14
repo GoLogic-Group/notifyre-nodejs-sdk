@@ -87,9 +87,9 @@ async function listFaxNumbers() {
 
 #### Instance Methods
 
-| Name                | Description                                                     |
-| --------------      | ----------------------------------------------------------------|
-| downloadMmsReply    | Returns list of mms documents in message in Base64 string format  
+| Name                | Description                                                       |
+| --------------      | ------------------------------------------------------------------|
+| downloadMmsReply    | Returns list of mms documents in message in Base64 string format  |  
 
 ### Contacts Service
 
