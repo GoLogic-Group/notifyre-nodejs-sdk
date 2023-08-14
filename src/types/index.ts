@@ -6,3 +6,4 @@ export interface Recipient {
 export * from './contacts';
 export * from './fax';
 export * from './sms';
+export * from './mms';

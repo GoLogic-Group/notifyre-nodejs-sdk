@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { baseUrl, defaultVersion } from './config';
-import { ContactsService, FaxService, SmsService } from './services';
+import { ContactsService, FaxService, MmsService, SmsService } from './services';
 import { responseInterceptor, errorInterceptor } from './utilities';
 
 export class NotifyreAPI {
@@ -36,6 +36,10 @@ export class NotifyreAPI {
 
   getContactsService(): ContactsService {
     return new ContactsService(this.httpClient);
+  }
+
+  getMmsService(): MmsService {
+    return new MmsService(this.httpClient);
   }
 }
 

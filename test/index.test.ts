@@ -1,5 +1,5 @@
 import { NotifyreAPI } from '../src';
-import { ContactsService, FaxService, SmsService } from '../src/services';
+import { ContactsService, FaxService, MmsService, SmsService } from '../src/services';
 
 describe('NotifyreAPI', () => {
   let notifyreAPI: NotifyreAPI;
@@ -27,5 +27,12 @@ describe('NotifyreAPI', () => {
 
     expect(contactsService).toBeTruthy();
     expect(contactsService).toBeInstanceOf(ContactsService);
+  });
+
+  it('should be able to return Mms Service instance', () => {
+    const mmsService = notifyreAPI.getMmsService();
+
+    expect(mmsService).toBeTruthy();
+    expect(mmsService).toBeInstanceOf(MmsService);
   });
 });
