@@ -83,6 +83,14 @@ async function listFaxNumbers() {
 | getSmsReply    | Returns received SMS details       |
 | listSmsNumbers | Returns SMS numbers and sender IDs |
 
+### MMS Service
+
+#### Instance Methods
+
+| Name                | Description                                                       |
+| --------------      | ------------------------------------------------------------------|
+| downloadMmsReply    | Returns list of mms documents in message in Base64 string format  |  
+
 ### Contacts Service
 
 #### Instance Methods

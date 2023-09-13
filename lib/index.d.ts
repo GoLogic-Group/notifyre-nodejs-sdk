@@ -1,4 +1,4 @@
-import { ContactsService, FaxService, SmsService } from './services';
+import { ContactsService, FaxService, MmsService, SmsService } from './services';
 export declare class NotifyreAPI {
     readonly apiKey: string;
     readonly version: string;
@@ -9,6 +9,7 @@ export declare class NotifyreAPI {
     getFaxService(): FaxService;
     getSmsService(): SmsService;
     getContactsService(): ContactsService;
+    getMmsService(): MmsService;
 }
 export * from './constants';
 export * from './models';
