@@ -2,8 +2,11 @@ import { Recipient } from '.';
 export interface ListSentSmsRequest {
     fromDate: number | null;
     toDate: number | null;
-    sort: string;
+    toNumber?: string;
+    fromNumber?: string;
     statusType?: string;
+    search?: string;
+    sort?: string;
     limit?: number;
     skip?: number;
 }
@@ -31,6 +34,7 @@ export interface SmsRecipient {
     costPerPart: number;
     fromNumber: string;
     id: string;
+    friendlyID: string;
     messageParts: number;
     queuedDateUtc: number | null;
     status: string;
@@ -93,6 +97,10 @@ export interface SmsMessageRecipient extends SmsRecipient {
 export interface ListSmsRepliesRequest {
     fromDate: number | null;
     toDate: number | null;
+    toNumber?: string;
+    fromNumber?: string;
+    recipientID?: string;
+    includeReplyContent?: boolean;
     sort: string;
     limit?: number;
     skip?: number;
@@ -103,6 +111,7 @@ export interface ListSmsRepliesResponse {
 }
 export interface SmsReply {
     recipientID: string;
+    friendlyID: string;
     recipientNumber: string;
     senderNumber: string;
     replyID: string;
@@ -124,6 +133,7 @@ export interface SmsReplyDetails {
 }
 export interface SmsReply {
     recipientID: string;
+    friendlyID: string;
     recipientNumber: string;
     senderNumber: string;
     replyID: string;
@@ -132,6 +142,19 @@ export interface SmsReply {
     contactDetails: SenderContactDetails | null;
 }
 export interface GetSmsReplyResponse extends SmsReply {
+}
+export interface SmsReplyV2 {
+    recipientID: string;
+    friendlyID: string;
+    recipientNumber: string;
+    senderNumber: string;
+    replyID: string;
+    message: string;
+    subject: string;
+    receivedDateUtc: number;
+    contactDetails: SenderContactDetails | null;
+}
+export interface GetSmsReplyResponseV2 extends SmsReplyV2 {
 }
 export interface ListSmsNumbersResponse {
     smsNumbers: SmsNumber[];
@@ -156,4 +179,11 @@ export interface SmsSenderID {
     status: string;
     createdDateUtc: number;
     lastModifiedDateUtc: number | null;
+}
+export interface ListSmsPricesResponse {
+    countryCode: string;
+    countryName: string;
+    prefix: string;
+    price: number;
+    currency: string;
 }

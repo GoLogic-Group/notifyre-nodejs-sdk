@@ -5,6 +5,7 @@ export interface ListSentFaxesRequest {
     toDate: number;
     sort: string;
     statusType?: string;
+    search?: string;
     limit: number;
     skip: number;
 }
@@ -101,4 +102,11 @@ export interface FaxNumber {
     assignedNumber: number;
     e164: string;
     status: string;
+}
+export interface ListFaxPricesResponse {
+    countryCode: string;
+    countryName: string;
+    prefix: string;
+    price: number;
+    currency: string;
 }

@@ -160,6 +160,19 @@ export interface SmsReply {
 }
 export interface GetSmsReplyResponse extends SmsReply {}
 
+export interface SmsReplyV2 {
+  recipientID: string;
+  friendlyID: string;
+  recipientNumber: string;
+  senderNumber: string;
+  replyID: string;
+  message: string;
+  subject:string;
+  receivedDateUtc: number;
+  contactDetails: SenderContactDetails | null;
+}
+export interface GetSmsReplyResponseV2 extends SmsReplyV2 {}
+
 export interface ListSmsNumbersResponse {
   smsNumbers: SmsNumber[];
   smsSenderIds: SmsSenderID[];
