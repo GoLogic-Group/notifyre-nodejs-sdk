@@ -134,7 +134,8 @@ describe('SmsService', () => {
         test: 'test1'
       },
       callbackUrl: 'https://google.com',
-      callbackFormat: 'notifyre'
+      callbackFormat: 'notifyre',
+      campaignName: "test"
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -160,7 +161,8 @@ describe('SmsService', () => {
       },
       callbackUrl: 'https://google.com',
       callbackFormat: 'notifyre',
-      apiVersion: defaultVersion
+      apiVersion: defaultVersion,
+      campaignName:'test'
     });
   });
 
@@ -175,7 +177,8 @@ describe('SmsService', () => {
       metadata: {
         test: 'test1'
       },
-      callbackUrl: 'https://google.com'
+      callbackUrl: 'https://google.com',
+      campaignName: "test"
     };
     const mockSubmitSmsResponse: SubmitSmsResponse = {
       friendlyID: 'DBYZD9PAWPL5',
@@ -201,7 +204,8 @@ describe('SmsService', () => {
       },
       callbackUrl: 'https://google.com',
       callbackFormat: 'notifyre',
-      apiVersion: defaultVersion
+      apiVersion: defaultVersion,
+      campaignName:'test'
     });
   });
 
@@ -211,7 +215,8 @@ describe('SmsService', () => {
       from: '+61411111111',
       recipients: [{ type: RecipientType.SmsNumber, value: '+61444444444' }],
       scheduledDate: null,
-      addUnsubscribeLink: true
+      addUnsubscribeLink: true,
+      campaignName: "test"
     };
     const notifyreError = new NotifyreError('ERROR');
 
@@ -249,7 +254,11 @@ describe('SmsService', () => {
           deliveryStatus: 'sent'
         }
       ],
-      submittedDateUtc: 1631236195
+      submittedDateUtc: 1631236195,
+      campaignName:"campaign name",
+      totalCost: 2,
+      status:"some status"
+
     };
 
     const httpGetSpy = jest
@@ -345,7 +354,8 @@ describe('SmsService', () => {
             replyID: 'dea3713b-8d47-4893-9290-633d67a1b304',
             message: 'test',
             receivedDateUtc: 1631236195,
-            contactDetails: null
+            contactDetails: null,
+            hasMmsDocuntment: false
           }
         ],
         total: 5
@@ -408,7 +418,8 @@ describe('SmsService', () => {
         recipientNumber: '+61411111111',
         replyID: '80f7e81a-0769-44fb-a0f7-0bd778655914',
         senderNumber: '+61444444444',
-        friendlyID: 'TGR0L77T3QDR'
+        friendlyID: 'TGR0L77T3QDR',
+        hasMmsDocuntment: false
       }
     );
     const mockRequest: string = 'a3a1f58f-c54b-4c49-a9ae-0e0f8f11550a';
@@ -451,7 +462,8 @@ describe('SmsService', () => {
             provider: 'test',
             startDateUtc: 1638190800,
             status: 'deactivated',
-            subscriptionID: '61920b76044b80d8443f6964'
+            subscriptionID: '61920b76044b80d8443f6964',
+            campaignId:'campaign id'
           }
         ],
         smsSenderIds: [

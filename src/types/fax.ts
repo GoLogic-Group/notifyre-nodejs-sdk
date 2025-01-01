@@ -42,6 +42,7 @@ export interface SubmitFaxRequest {
   header: string;
   subject: string;
   scheduledDate: number | null;
+  campaignName:string;
 }
 
 export interface SubmitFaxResponse {

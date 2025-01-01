@@ -49,7 +49,8 @@ export class SmsService {
       callbackUrl: request.callbackUrl || "",
       metadata: request.metadata || {},
       callbackFormat: request.callbackFormat || "notifyre",
-      apiVersion: defaultVersion
+      apiVersion: defaultVersion,
+      campaignName: request.campaignName
     });
   }
 

@@ -51,6 +51,7 @@ export interface SubmitSmsRequest {
     callbackUrl?: string;
     metadata?: object;
     callbackFormat?: string;
+    campaignName: string;
 }
 export interface SubmitSmsResponse {
     smsMessageID: string;
@@ -72,6 +73,9 @@ export interface GetSmsResponse {
     submittedDateUtc: number | null;
     completedDateUtc: number | null;
     lastModifiedDateUtc: number | null;
+    campaignName: string;
+    status: string;
+    totalCost: number;
 }
 export interface GetSmsRecipientRequest {
     messageID: string;
@@ -118,6 +122,7 @@ export interface SmsReply {
     message: string;
     receivedDateUtc: number;
     contactDetails: SenderContactDetails | null;
+    hasMmsDocuntment: boolean;
 }
 export interface SenderContactDetails {
     firstName: string;
@@ -172,6 +177,7 @@ export interface SmsNumber {
     startDateUtc: number;
     status: string;
     finishDateUtc: number | null;
+    campaignId: string | '';
 }
 export interface SmsSenderID {
     id: string;
