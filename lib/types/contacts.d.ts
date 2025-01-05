@@ -24,7 +24,8 @@ export interface Contact {
     lastName: string;
     mobileNumber: string;
     organization: string;
-    unsubscribe: boolean;
+    unsubscribed: boolean;
+    unsubscribeKey: string;
 }
 export interface ContactCustomField {
     id: string;
@@ -82,9 +83,6 @@ export interface Group {
     id: string;
     name: string;
     totalContacts: number;
-    totalUnsubscribed: number;
-    totalSMSContacts: number;
-    totalFaxContacts: number;
 }
 export interface BaseGroup {
     createdDateUtc: number;
@@ -93,9 +91,6 @@ export interface BaseGroup {
 }
 export interface Group extends BaseGroup {
     totalContacts: number;
-    totalUnsubscribed: number;
-    totalSMSContacts: number;
-    totalFaxContacts: number;
 }
 export interface CreateGroupResponse extends BaseGroup {
 }
@@ -104,6 +99,10 @@ export interface UpdateGroupRequest {
     name: string;
 }
 export interface UpdateGroupResponse extends BaseGroup {
+}
+export interface DeleteGroupsRequest {
+    groups: string[];
+    includeContacts: boolean;
 }
 export interface DeleteGroupsResponse {
     deleted: boolean;

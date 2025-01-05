@@ -68,7 +68,8 @@ export class FaxService {
         scheduledDate: request.scheduledDate,
         sendFrom: request.sendFrom,
         senderID: request.sendFrom,
-        subject: request.subject
+        subject: request.subject,
+        campaignName: request.campaignName
       }
     });
   }

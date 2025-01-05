@@ -139,7 +139,8 @@ describe('FaxService', () => {
       sendFrom: '',
       header: '',
       subject: '',
-      scheduledDate: null
+      scheduledDate: null,
+      campaignName: ''
     };
     const mockFileName = '4ca38d82-c82a-45da-8f28-62c198bec078';
     const mockUploadDocumentResponse = new BaseResponse<UploadDocumentResponse>(
@@ -220,7 +221,8 @@ describe('FaxService', () => {
         scheduledDate: null,
         sendFrom: mockRequest.sendFrom,
         senderID: mockRequest.sendFrom,
-        subject: mockRequest.subject
+        subject: mockRequest.subject,
+        campaignName: mockRequest.campaignName
       }
     });
   }, 30000);
@@ -246,7 +248,8 @@ describe('FaxService', () => {
       sendFrom: '+61777777777',
       header: '',
       subject: '',
-      scheduledDate
+      scheduledDate,
+      campaignName: ''
     };
     const mockFileName = '4ca38d82-c82a-45da-8f28-62c198bec078';
     const mockUploadDocumentResponse = new BaseResponse<UploadDocumentResponse>(
@@ -307,7 +310,8 @@ describe('FaxService', () => {
         scheduledDate,
         sendFrom: mockRequest.sendFrom,
         senderID: mockRequest.sendFrom,
-        subject: mockRequest.subject
+        subject: mockRequest.subject,
+        campaignName:mockRequest.campaignName
       }
     });
   }, 30000);
@@ -341,7 +345,8 @@ describe('FaxService', () => {
       sendFrom: '+61777777777',
       header: '',
       subject: '',
-      scheduledDate: null
+      scheduledDate: null,
+      campaignName: ''
     };
     const mockUploadDocumentResponseItem1 =
       new BaseResponse<UploadDocumentResponse>(true, 200, 'OK', {
@@ -389,7 +394,8 @@ describe('FaxService', () => {
       sendFrom: '+61777777777',
       header: '',
       subject: '',
-      scheduledDate: null
+      scheduledDate: null,
+      campaignName: ''
     };
     const mockFileName1 = '4ca38d82-c82a-45da-8f28-62c198bec078';
     const mockFileName2 = '99dd6d59-d919-4744-b19b-3ce5d0cb780b';

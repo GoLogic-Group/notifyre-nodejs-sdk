@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { AddContactsToGroupsRequest, AddContactsToGroupsResponse, CreateContactRequest, CreateContactResponse, CreateGroupResponse, deleteContactsResponse, DeleteGroupsResponse, GetContactResponse, ListContactsRequest, ListContactsResponse, ListGroupsRequest, ListGroupsResponse, RemoveContactsFromGroupRequest, RemoveContactsFromGroupResponse, UpdateContactRequest, UpdateContactResponse, UpdateGroupRequest, UpdateGroupResponse } from '..';
+import { AddContactsToGroupsRequest, AddContactsToGroupsResponse, CreateContactRequest, CreateContactResponse, CreateGroupResponse, deleteContactsResponse, DeleteGroupsRequest, DeleteGroupsResponse, GetContactResponse, ListContactsRequest, ListContactsResponse, ListGroupsRequest, ListGroupsResponse, RemoveContactsFromGroupRequest, RemoveContactsFromGroupResponse, UpdateContactRequest, UpdateContactResponse, UpdateGroupRequest, UpdateGroupResponse } from '..';
 import { BaseResponse } from '../models';
 export declare class ContactsService {
     private httpClient;
@@ -15,5 +15,5 @@ export declare class ContactsService {
     listGroups(request: ListGroupsRequest): Promise<BaseResponse<ListGroupsResponse>>;
     createGroup(name: string): Promise<BaseResponse<CreateGroupResponse>>;
     updateGroup(request: UpdateGroupRequest): Promise<BaseResponse<UpdateGroupResponse>>;
-    deleteGroups(groups: string[]): Promise<BaseResponse<DeleteGroupsResponse>>;
+    deleteGroups(request: DeleteGroupsRequest): Promise<BaseResponse<DeleteGroupsResponse>>;
 }

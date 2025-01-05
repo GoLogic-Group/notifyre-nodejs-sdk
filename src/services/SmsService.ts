@@ -12,7 +12,8 @@ import {
   ListSentSmsResponse,
   SubmitSmsRequest,
   SubmitSmsResponse,
-  ListSmsPricesResponse
+  ListSmsPricesResponse,
+  GetSmsReplyResponseV2
 } from '../types';
 
 import { defaultVersion } from '../config';
@@ -48,7 +49,8 @@ export class SmsService {
       callbackUrl: request.callbackUrl || "",
       metadata: request.metadata || {},
       callbackFormat: request.callbackFormat || "notifyre",
-      apiVersion: defaultVersion
+      apiVersion: defaultVersion,
+      campaignName: request.campaignName
     });
   }
 
@@ -80,6 +82,10 @@ export class SmsService {
 
   getSmsReply(replyID: string): Promise<BaseResponse<GetSmsReplyResponse>> {
     return this.httpClient.get(`${this.basePath}/received/${replyID}`);
+  }
+
+  getSmsReplyV2(replyID: string): Promise<BaseResponse<GetSmsReplyResponseV2>> {
+    return this.httpClient.get(`${this.basePath}/received/${replyID}/v2`);
   }
 
   listSmsNumbers(): Promise<BaseResponse<ListSmsNumbersResponse>> {

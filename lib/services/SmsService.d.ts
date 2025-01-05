@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { BaseResponse } from '../models';
-import { GetSmsReplyResponse, GetSmsResponse, GetSmsRecipientRequest, GetSmsRecipientResponse, ListSmsNumbersResponse, ListSmsRepliesRequest, ListSmsRepliesResponse, ListSentSmsRequest, ListSentSmsResponse, SubmitSmsRequest, SubmitSmsResponse } from '../types';
+import { GetSmsReplyResponse, GetSmsResponse, GetSmsRecipientRequest, GetSmsRecipientResponse, ListSmsNumbersResponse, ListSmsRepliesRequest, ListSmsRepliesResponse, ListSentSmsRequest, ListSentSmsResponse, SubmitSmsRequest, SubmitSmsResponse, ListSmsPricesResponse, GetSmsReplyResponseV2 } from '../types';
 export declare class SmsService {
     private httpClient;
     private basePath;
@@ -11,5 +11,7 @@ export declare class SmsService {
     getSmsRecipientMessage(request: GetSmsRecipientRequest): Promise<BaseResponse<GetSmsRecipientResponse>>;
     listSmsReplies(request: ListSmsRepliesRequest): Promise<BaseResponse<ListSmsRepliesResponse>>;
     getSmsReply(replyID: string): Promise<BaseResponse<GetSmsReplyResponse>>;
+    getSmsReplyV2(replyID: string): Promise<BaseResponse<GetSmsReplyResponseV2>>;
     listSmsNumbers(): Promise<BaseResponse<ListSmsNumbersResponse>>;
+    listPrices(): Promise<BaseResponse<ListSmsPricesResponse>>;
 }
