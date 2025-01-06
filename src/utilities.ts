@@ -56,7 +56,7 @@ export const responseInterceptor = (res: AxiosResponse) => {
   return res.data;
 };
 
-export const errorInterceptor = (res: AxiosError) => {
+export const errorInterceptor = (res: AxiosError<any, any>) => {
   if (res.response) {
     return Promise.reject(
       new NotifyreError(

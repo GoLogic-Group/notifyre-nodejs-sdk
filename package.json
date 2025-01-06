@@ -1,6 +1,6 @@
 {
   "name": "notifyre-nodejs-sdk",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "The official Notifyre NodeJS SDK library for use with the Notifyre API",
   "main": "lib/index.js",
   "keywords": [
@@ -29,7 +29,7 @@
   "license": "Apache-2.0",
   "types": "lib/index.d.ts",
   "dependencies": {
-    "axios": "^0.26.1"
+    "axios": "^1.7.9"
   },
   "devDependencies": {
     "@types/jest": "^27.0.3",
