@@ -12,7 +12,7 @@ npm install notifyre-nodejs-sdk
 
 The Notifyre API uses API tokens to authenticate requests.
 
-If you don't have a Notifyre account already, you’ll need to create one [here](https://app.notifyre.com/sign-up) in order to use the API.
+If you don't have a Notifyre account already, you’ll need to create one [here](https://notifyre.com/signup) in order to use the API.
 
 For more info, visit [API docs website](https://docs.notifyre.com).
 
@@ -128,3 +128,4 @@ npm run test
 ```bash
 npm run test:watch
 ```
+
