@@ -42,7 +42,7 @@ export interface SubmitFaxRequest {
   header: string;
   subject: string;
   scheduledDate: number | null;
-  campaignName:string;
+  campaignName: string;
 }
 
 export interface SubmitFaxResponse {
@@ -86,6 +86,9 @@ export interface ListReceivedFaxesRequest {
   toNumber: string;
   limit: number;
   skip: number;
+  fromDate?: number;
+  toDate?: number;
+  sort?: string;
 }
 
 export interface ListReceivedFaxesResponse {
@@ -105,8 +108,8 @@ export interface ReceivedFax {
 }
 
 export interface DownloadReceivedFaxResponse {
-    tiffBase64: string;
-    type: string;
+  tiffBase64: string;
+  type: string;
 }
 
 export interface ListFaxNumbersResponse {
