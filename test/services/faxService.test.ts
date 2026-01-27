@@ -311,7 +311,7 @@ describe('FaxService', () => {
         sendFrom: mockRequest.sendFrom,
         senderID: mockRequest.sendFrom,
         subject: mockRequest.subject,
-        campaignName:mockRequest.campaignName
+        campaignName: mockRequest.campaignName
       }
     });
   }, 30000);
@@ -560,6 +560,44 @@ describe('FaxService', () => {
     );
   });
 
+  it('listReceivedFaxes - should be able to handle optional parameters', async () => {
+    const mockRequest: ListReceivedFaxesRequest = {
+      toNumber: '',
+      limit: 10,
+      skip: 0,
+      fromDate: 1631236195,
+      toDate: 1631830995,
+      sort: Sort.Ascending
+    };
+    const mockListCoverPagesResponse =
+      new BaseResponse<ListReceivedFaxesResponse>(true, 200, 'OK', {
+        faxes: [
+          {
+            duration: 2399,
+            from: '+61711111111',
+            id: '85',
+            pages: 1,
+            read: false,
+            status: 'completed',
+            timestamp: 1637827359,
+            to: '+61777777777'
+          }
+        ],
+        total: 50
+      });
+
+    const httpGetSpy = jest
+      .spyOn(httpClient, 'get')
+      .mockResolvedValue(mockListCoverPagesResponse);
+
+    await expect(faxService.listReceivedFaxes(mockRequest)).resolves.toEqual(
+      mockListCoverPagesResponse
+    );
+    expect(httpGetSpy).toHaveBeenCalledWith('/fax/received', {
+      params: mockRequest
+    });
+  });
+
   it('downloadReceivedFax - should be able to return base64 string of received fax', async () => {
     const mockRequest = '85';
     const mockDownloadSentFaxResponse =
@@ -625,11 +663,11 @@ describe('FaxService', () => {
     const mockListPricesResponse = {
       prices: [
         {
-          countryCode: "AU",
-          countryName: "Australia",
+          countryCode: 'AU',
+          countryName: 'Australia',
           prefix: '61',
           price: 1,
-          currency: 'AUD',
+          currency: 'AUD'
         }
       ]
     };
