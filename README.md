@@ -68,6 +68,7 @@ async function listFaxNumbers() {
 | listCoverPages      | Returns cover pages                   |
 | listReceivedFaxes   | Returns received faxes                |
 | downloadReceivedFax | Returns received fax as base64 string |
+| downloadAndDeleteReceivedFax | Returns received fax as base64 string, then permanently deletes the stored document |
 | listFaxNumbers      | Returns fax numbers                   |
 
 ### SMS Service

@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios';
 import { DocumentStatus } from '../constants';
 import { BaseResponse, NotifyreError } from '../models';
 import {
+  DownloadAndDeleteReceivedFaxResponse,
   DownloadReceivedFaxResponse,
   DownloadSentFaxRequest,
   DownloadSentFaxResponse,
@@ -157,6 +158,14 @@ export class FaxService {
     faxId: string
   ): Promise<BaseResponse<DownloadReceivedFaxResponse>> {
     return this.httpClient.get(`${this.basePath}/received/${faxId}/download`);
+  }
+
+  downloadAndDeleteReceivedFax(
+    faxId: string
+  ): Promise<BaseResponse<DownloadAndDeleteReceivedFaxResponse>> {
+    return this.httpClient.post(
+      `${this.basePath}/received/${faxId}/download-and-delete`
+    );
   }
 
   listFaxNumbers(): Promise<BaseResponse<ListFaxNumbersResponse>> {

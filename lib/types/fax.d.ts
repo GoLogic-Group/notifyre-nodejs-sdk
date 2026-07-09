@@ -74,6 +74,9 @@ export interface ListReceivedFaxesRequest {
     toNumber: string;
     limit: number;
     skip: number;
+    fromDate?: number;
+    toDate?: number;
+    sort?: string;
 }
 export interface ListReceivedFaxesResponse {
     faxes: ReceivedFax[];
@@ -91,6 +94,10 @@ export interface ReceivedFax {
 }
 export interface DownloadReceivedFaxResponse {
     tiffBase64: string;
+    type: string;
+}
+export interface DownloadAndDeleteReceivedFaxResponse {
+    base64Str: string;
     type: string;
 }
 export interface ListFaxNumbersResponse {

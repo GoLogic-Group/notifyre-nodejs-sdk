@@ -10,6 +10,7 @@ import { baseUrl, defaultVersion } from '../../src/config';
 import { BaseResponse, NotifyreError } from '../../src/models';
 import { FaxService } from '../../src/services';
 import {
+  DownloadAndDeleteReceivedFaxResponse,
   DownloadReceivedFaxResponse,
   DownloadSentFaxRequest,
   DownloadSentFaxResponse,
@@ -623,6 +624,35 @@ describe('FaxService', () => {
     jest.spyOn(httpClient, 'get').mockRejectedValue(notifyreError);
 
     await expect(faxService.downloadReceivedFax('85')).rejects.toEqual(
+      notifyreError
+    );
+  });
+
+  it('downloadAndDeleteReceivedFax - should be able to return base64 string of received fax', async () => {
+    const mockRequest = '85';
+    const mockDownloadAndDeleteReceivedFaxResponse =
+      new BaseResponse<DownloadAndDeleteReceivedFaxResponse>(true, 200, 'OK', {
+        base64Str: 'dGVzdA==',
+        type: 'application/pdf'
+      });
+
+    const httpPostSpy = jest
+      .spyOn(httpClient, 'post')
+      .mockResolvedValue(mockDownloadAndDeleteReceivedFaxResponse);
+
+    await expect(
+      faxService.downloadAndDeleteReceivedFax(mockRequest)
+    ).resolves.toEqual(mockDownloadAndDeleteReceivedFaxResponse);
+    expect(httpPostSpy).toHaveBeenCalledWith(
+      `/fax/received/${mockRequest}/download-and-delete`
+    );
+  });
+
+  it('downloadAndDeleteReceivedFax - should be able to handle system errors', async () => {
+    const notifyreError = new NotifyreError('ERROR');
+    jest.spyOn(httpClient, 'post').mockRejectedValue(notifyreError);
+
+    await expect(faxService.downloadAndDeleteReceivedFax('85')).rejects.toEqual(
       notifyreError
     );
   });

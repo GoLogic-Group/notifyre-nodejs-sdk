@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { BaseResponse } from '../models';
-import { DownloadReceivedFaxResponse, DownloadSentFaxRequest, DownloadSentFaxResponse, ListCoverPagesResponse, ListFaxNumbersResponse, ListReceivedFaxesResponse, ListReceivedFaxesRequest, ListSentFaxesRequest, ListSentFaxesResponse, SubmitFaxRequest, SubmitFaxResponse, ListFaxPricesResponse } from '../types';
+import { DownloadAndDeleteReceivedFaxResponse, DownloadReceivedFaxResponse, DownloadSentFaxRequest, DownloadSentFaxResponse, ListCoverPagesResponse, ListFaxNumbersResponse, ListReceivedFaxesResponse, ListReceivedFaxesRequest, ListSentFaxesRequest, ListSentFaxesResponse, SubmitFaxRequest, SubmitFaxResponse, ListFaxPricesResponse } from '../types';
 export declare class FaxService {
     private httpClient;
     private basePath;
@@ -13,6 +13,7 @@ export declare class FaxService {
     listCoverPages(): Promise<BaseResponse<ListCoverPagesResponse[]>>;
     listReceivedFaxes(request: ListReceivedFaxesRequest): Promise<BaseResponse<ListReceivedFaxesResponse>>;
     downloadReceivedFax(faxId: string): Promise<BaseResponse<DownloadReceivedFaxResponse>>;
+    downloadAndDeleteReceivedFax(faxId: string): Promise<BaseResponse<DownloadAndDeleteReceivedFaxResponse>>;
     listFaxNumbers(): Promise<BaseResponse<ListFaxNumbersResponse>>;
     listPrices(): Promise<BaseResponse<ListFaxPricesResponse>>;
 }

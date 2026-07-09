@@ -112,6 +112,11 @@ export interface DownloadReceivedFaxResponse {
   type: string;
 }
 
+export interface DownloadAndDeleteReceivedFaxResponse {
+  base64Str: string;
+  type: string;
+}
+
 export interface ListFaxNumbersResponse {
   numbers: FaxNumber[];
 }
